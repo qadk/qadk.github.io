@@ -32,7 +32,7 @@
 
 
 
-  <meta name="keywords" content="Gulp,Laravel 5.1,Unit Test," />
+  <meta name="keywords" content="Git," />
 
 
 
@@ -43,16 +43,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/images/icon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="每次修改程式都要自己跑測試實在有點麻煩，所以把監聽檔案改變並且執行測試這件事交給 Gulp 吧。">
+<meta name="description" content="整理 Git 環境設定識別資料和別名。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Laravel 5.1 中使用 Gulp + Elixir 進行自動化測試">
-<meta property="og:url" content="http://yuhui.im/2015/10/01/Laravel-5-1-中使用-Gulp-Elixir-進行自動化測試/index.html">
+<meta property="og:title" content="Git 常用基本設定">
+<meta property="og:url" content="http://yuhui.im/2015/11/28/git-常用基本設定/index.html">
 <meta property="og:site_name" content="Yuhui's Notes">
-<meta property="og:description" content="每次修改程式都要自己跑測試實在有點麻煩，所以把監聽檔案改變並且執行測試這件事交給 Gulp 吧。">
-<meta property="og:updated_time" content="2015-11-25T11:21:15.000Z">
+<meta property="og:description" content="整理 Git 環境設定識別資料和別名。">
+<meta property="og:updated_time" content="2015-11-30T16:30:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Laravel 5.1 中使用 Gulp + Elixir 進行自動化測試">
-<meta name="twitter:description" content="每次修改程式都要自己跑測試實在有點麻煩，所以把監聽檔案改變並且執行測試這件事交給 Gulp 吧。">
+<meta name="twitter:title" content="Git 常用基本設定">
+<meta name="twitter:description" content="整理 Git 環境設定識別資料和別名。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -62,7 +62,7 @@
   };
 </script>
 
-  <title> Laravel 5.1 中使用 Gulp + Elixir 進行自動化測試 | Yuhui's Notes </title>
+  <title> Git 常用基本設定 | Yuhui's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
@@ -178,7 +178,7 @@
           
           
             
-              Laravel 5.1 中使用 Gulp + Elixir 進行自動化測試
+              Git 常用基本設定
             
           
         </h1>
@@ -187,8 +187,8 @@
       <div class="post-meta">
         <span class="post-time">
           發表於
-          <time itemprop="dateCreated" datetime="2015-10-01T21:39:16+08:00" content="2015-10-01">
-            2015-10-01
+          <time itemprop="dateCreated" datetime="2015-11-28T13:28:37+08:00" content="2015-11-28">
+            2015-11-28
           </time>
         </span>
 
@@ -197,20 +197,8 @@
             &nbsp; | &nbsp; 分類於
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/php/" itemprop="url" rel="index">
-                  <span itemprop="name">PHP</span>
-                </a>
-              </span>
-
-              
-              
-                ， 
-              
-
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/php/laravel/" itemprop="url" rel="index">
-                  <span itemprop="name">Laravel</span>
+                <a href="/categories/git/" itemprop="url" rel="index">
+                  <span itemprop="name">Git</span>
                 </a>
               </span>
 
@@ -225,8 +213,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/10/01/Laravel-5-1-中使用-Gulp-Elixir-進行自動化測試/#comments" itemprop="discussionUrl">
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/10/01/Laravel-5-1-中使用-Gulp-Elixir-進行自動化測試/" itemprop="commentsCount"></span>
+            <a href="/2015/11/28/git-常用基本設定/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/28/git-常用基本設定/" itemprop="commentsCount"></span>
             </a>
           </span>
           
@@ -240,39 +228,42 @@
       
 
       
-        <span itemprop="articleBody"><p>每次修改程式都要自己跑測試實在有點麻煩，所以把監聽檔案改變並且執行測試這件事交給 Gulp 吧。</p>
+        <span itemprop="articleBody"><p>整理 Git 環境設定識別資料和別名。</p>
  <a id="more"></a>
-<h2 id="環境建立">環境建立</h2><p>需要安裝</p>
-<ul>
-<li>phpunit 相關依賴套件 </li>
-<li>node </li>
-<li>npm</li>
-<li>global 的 gulp 套件</li>
-</ul>
-<blockquote>
-<p>以下安裝方式是以 Ubuntu 為例</p>
-</blockquote>
-<h3 id="PHP_Unit_相關依賴套件安裝">PHP Unit 相關依賴套件安裝</h3><p>移到專案資料夾中，確定 vendor 中已掛入 <code>phpunit</code> ，並且可以順利執行<code>./vendor/bin/phpunit</code>，有缺少依賴套件的話就在這步驟補上吧。</p>
-<h3 id="安裝_Nodejs">安裝 Nodejs</h3><blockquote>
-<p>由於 Ubuntu 的 node 已被佔用，如果要在 Ubuntu 上安裝需要另加 nodejs 的 ppa 解決。</p>
-</blockquote>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo<span class="instruction"> add-apt-repository </span>ppa:chris-lea/node.js</span><br><span class="line">sudo apt-get install nodejs</span><br><span class="line"></span><br><span class="line">// 測試安裝成功</span><br><span class="line">nodejs -v //<span class="instruction"> or </span>node -v </span><br><span class="line"><span class="variable">v0</span>.10.37</span><br></pre></td></tr></table></figure>
-<h3 id="安裝_npm_(_nodejs_的套件管理)">安裝 npm ( nodejs 的套件管理)</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install npm</span><br><span class="line"></span><br><span class="line"><span class="comment">// 測試安裝成功</span></span><br><span class="line">npm -v </span><br><span class="line"><span class="number">1.4</span><span class="number">.28</span></span><br></pre></td></tr></table></figure>
-<h3 id="安裝_global_環境的_Gulp">安裝 global 環境的 Gulp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g gulp </span><br><span class="line"></span><br><span class="line"><span class="comment">// 測試安裝成功</span></span><br><span class="line">gulp</span><br><span class="line">[<span class="number">12</span>:<span class="number">02</span>:<span class="number">53</span>] Local gulp not found in ~/git</span><br><span class="line">[<span class="number">12</span>:<span class="number">02</span>:<span class="number">53</span>] Try running: npm install gulp</span><br></pre></td></tr></table></figure>
-<h2 id="Laravel_5-1_專案相關套件安裝">Laravel 5.1 專案相關套件安裝</h2><p>移動到 Laravel 5.1 的專案資料夾安裝 gulp 和 laravel-elxir</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> project-forder</span><br></pre></td></tr></table></figure>
-<p>確定 <code>package.json</code> 檔中有包含 <code>&quot;laravel-elixir&quot;: &quot;^3.0.0&quot;,</code> ，接下來開始安裝套件</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm <span class="keyword">install</span></span><br></pre></td></tr></table></figure>
-<p>試試寫在 <code>gulpfile.js</code> 中的預設值能不能正常運作</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Laravel 5.1 gulpfile.js 的預設值</span></span><br><span class="line"><span class="keyword">var</span> elixir = <span class="built_in">require</span>(<span class="string">'laravel-elixir'</span>);</span><br><span class="line"></span><br><span class="line">elixir(<span class="function"><span class="keyword">function</span>(<span class="params">mix</span>) </span>&#123;</span><br><span class="line">    mix.sass(<span class="string">'app.scss'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>執行 <code>gulp</code> 的設定，右上有跑出通知代表成功！</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gulp</span><br></pre></td></tr></table></figure>
-<h2 id="使用_laravel-elixir_在存檔時自動觸發_phpUnit">使用 laravel-elixir 在存檔時自動觸發 phpUnit</h2><p>打開 <code>gulpfile.js</code>，將底下的 function 改寫為</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">elixir<span class="list">(<span class="keyword">function</span><span class="list">(<span class="keyword">mix</span>)</span> &#123;</span><br><span class="line">	mix.phpUnit<span class="list">()</span><span class="comment">;</span></span><br><span class="line">&#125;)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<p>存檔後在命令列上打 <code>gulp watch</code> ，接下來試著去修改 php 或是 <code>tests</code> 中的檔案，開始自動化測試吧。</p>
-<h2 id="參考連結">參考連結</h2><p><a href="https://github.com/laravel/elixir" target="_blank" rel="external">Laravel Elixir (GitHub)</a></p>
-<p><a href="https://laracasts.com/series/whats-new-in-laravel-5/episodes/10" target="_blank" rel="external">Laracast: Laravel Elxir</a></p>
-<p><a href="https://laracasts.com/lessons/how-to-trigger-tests-on-save" target="_blank" rel="external">Laracast: Trigger test on save</a></p>
+<h2 id="基礎設定存放位置和調用順序">基礎設定存放位置和調用順序</h2><table>
+<thead>
+<tr>
+<th>存放位置</th>
+<th>層級</th>
+<th>設定時所需參數</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>etc/gitconfig</code></td>
+<td>系統所有使用者</td>
+<td><code>--system</code></td>
+</tr>
+<tr>
+<td><code>~/.gitconfig</code></td>
+<td>當前使用者</td>
+<td><code>--global</code></td>
+</tr>
+<tr>
+<td><code>.git/config</code></td>
+<td>當前專案</td>
+<td>無</td>
+</tr>
+</tbody>
+</table>
+<p>下層設定會覆寫上層，所以當三個設定檔都有同一個選項設定時以<code>當前專案</code>的設定為最優先，效果如下：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git config --system user<span class="class">.name</span> <span class="string">"yu"</span></span><br><span class="line">git config --global user<span class="class">.name</span> <span class="string">"hui"</span></span><br><span class="line">git config user<span class="class">.name</span> <span class="string">"Yu Hui"</span></span><br><span class="line"></span><br><span class="line">git config user<span class="class">.name</span> <span class="comment">// Yu Hui</span></span><br></pre></td></tr></table></figure>
+<h2 id="設定識別資料">設定識別資料</h2><p><em>非常重要，新的開發環境別忘了先設定名稱和信箱。</em></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user<span class="class">.name</span> <span class="string">"yuhui"</span></span><br><span class="line">git config --global user<span class="class">.email</span> <span class="string">"example@mail.com"</span></span><br></pre></td></tr></table></figure>
+<h2 id="Alias">Alias</h2><p>將常用指令設定較短的別名，減少打字和打錯字的時間。</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">git</span> config --<span class="preprocessor">global</span> <span class="preprocessor">alias</span>.[<span class="preprocessor">alias</span>] [command]</span><br><span class="line"></span><br><span class="line"><span class="label">git</span> config --<span class="preprocessor">global</span> <span class="preprocessor">alias</span>.co checkout</span><br><span class="line"><span class="label">git</span> config --<span class="preprocessor">global</span> <span class="preprocessor">alias</span>.st status</span><br><span class="line"><span class="label">git</span> config --<span class="preprocessor">global</span> <span class="preprocessor">alias</span>.<span class="keyword">br </span><span class="keyword">branch</span><br><span class="line"></span><span class="label">git</span> config --<span class="preprocessor">global</span> <span class="preprocessor">alias</span>.ci commit</span><br></pre></td></tr></table></figure>
+<h2 id="查閱_config_列表">查閱 config 列表</h2><figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git config --list</span><br><span class="line"></span><br><span class="line">user.name=yu</span><br><span class="line">user.email=example@mail.com</span><br><span class="line">user.name=hui</span><br><span class="line"><span class="keyword">alias</span>.<span class="title">co</span>=checkout</span><br><span class="line"><span class="keyword">alias</span>.<span class="title">st</span>=status</span><br><span class="line"><span class="keyword">alias</span>.<span class="title">br</span>=branch</span><br><span class="line"><span class="keyword">alias</span>.<span class="title">ci</span>=commit</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h2 id="相關網頁">相關網頁</h2><p><a href="https://git-scm.com/book/zh-tw/v1/%E9%96%8B%E5%A7%8B-%E5%88%9D%E6%AC%A1%E8%A8%AD%E5%AE%9AGit" target="_blank" rel="external">初次設定Git</a><br><a href="https://git-scm.com/book/tr/v2/Git-Basics-Git-Aliases" target="_blank" rel="external">Git Alias</a></p>
 </span>
       
     </div>
@@ -281,11 +272,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/gulp/" rel="tag">#Gulp</a>
-          
-            <a href="/tags/laravel-5-1/" rel="tag">#Laravel 5.1</a>
-          
-            <a href="/tags/unit-test/" rel="tag">#Unit Test</a>
+            <a href="/tags/git/" rel="tag">#Git</a>
           
         </div>
       
@@ -294,11 +281,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/11/28/git-常用基本設定/" rel="prev">Git 常用基本設定</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/01/Laravel-5-1-中使用-Gulp-Elixir-進行自動化測試/" rel="next">Laravel 5.1 中使用 Gulp + Elixir 進行自動化測試</a>
             
           </div>
         </div>
@@ -413,7 +400,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#環境建立"><span class="nav-number">1.</span> <span class="nav-text">環境建立</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP_Unit_相關依賴套件安裝"><span class="nav-number">1.1.</span> <span class="nav-text">PHP Unit 相關依賴套件安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝_Nodejs"><span class="nav-number">1.2.</span> <span class="nav-text">安裝 Nodejs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝_npm_(_nodejs_的套件管理)"><span class="nav-number">1.3.</span> <span class="nav-text">安裝 npm ( nodejs 的套件管理)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝_global_環境的_Gulp"><span class="nav-number">1.4.</span> <span class="nav-text">安裝 global 環境的 Gulp</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Laravel_5-1_專案相關套件安裝"><span class="nav-number">2.</span> <span class="nav-text">Laravel 5.1 專案相關套件安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用_laravel-elixir_在存檔時自動觸發_phpUnit"><span class="nav-number">3.</span> <span class="nav-text">使用 laravel-elixir 在存檔時自動觸發 phpUnit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考連結"><span class="nav-number">4.</span> <span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基礎設定存放位置和調用順序"><span class="nav-number">1.</span> <span class="nav-text">基礎設定存放位置和調用順序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定識別資料"><span class="nav-number">2.</span> <span class="nav-text">設定識別資料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Alias"><span class="nav-number">3.</span> <span class="nav-text">Alias</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查閱_config_列表"><span class="nav-number">4.</span> <span class="nav-text">查閱 config 列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相關網頁"><span class="nav-number">5.</span> <span class="nav-text">相關網頁</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -467,9 +454,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'yuhuisblog';
-      var disqus_identifier = '2015/10/01/Laravel-5-1-中使用-Gulp-Elixir-進行自動化測試/';
-      var disqus_title = 'Laravel 5.1 中使用 Gulp + Elixir 進行自動化測試';
-      var disqus_url = 'http://yuhui.im/2015/10/01/Laravel-5-1-中使用-Gulp-Elixir-進行自動化測試/';
+      var disqus_identifier = '2015/11/28/git-常用基本設定/';
+      var disqus_title = 'Git 常用基本設定';
+      var disqus_url = 'http://yuhui.im/2015/11/28/git-常用基本設定/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
