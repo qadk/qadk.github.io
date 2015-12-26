@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Nerver Stop Learning.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://qadk.github.io/"/>
-  <updated>2015-11-30T16:30:02.000Z</updated>
+  <updated>2015-12-26T04:26:44.000Z</updated>
   <id>http://qadk.github.io/</id>
   
   <author>
@@ -13,6 +13,44 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[語義化函數命名]]></title>
+    <link href="http://qadk.github.io/2015/12/26/semantic-method-naming/"/>
+    <id>http://qadk.github.io/2015/12/26/semantic-method-naming/</id>
+    <published>2015-12-26T04:16:07.000Z</published>
+    <updated>2015-12-26T04:26:44.000Z</updated>
+    <content type="html"><![CDATA[<p>正確命名這件事是個艱難的編碼任務。然而，這只是因為我們給予這些任務的考慮經常不足，這篇文章主要在說怎麼為函數正確的命名。</p>
+<a id="more"></a>
+<p>雖然我們專注於命名，但其實文件化和命名可以協助彼此更好。一旦我們習慣為每個函數寫作文檔說明這個函數到底在幹嘛，這會幫助我們正確命名自己的函數。如果文件很棒，那麼通常命名只需要從文檔中選擇正確的字就好。我們可以使用這個技巧檢驗函數名稱和文件是否意見一致，如果他們在表達不同事情的話，一定有其中一方是錯誤的。</p>
+<p>來建立我們最初也最重要的規則：所有的函數都是在做某件事，所以它們的名字需要從<strong>動詞</strong>開始。接下來我們可以看如何選擇最好的動詞來傳達我們函數到底在幹嘛。</p>
+<h2 id="減少_Get">減少 Get</h2><p>我們編寫的許多函數大都會回傳一個值，選擇 <code>get</code> 做為大多數函數的動詞是一個常見的錯誤。<code>Get</code> 使用在去訪問或執行簡單的操作是很好的，像是取出一個指針，但沒有傳達足夠多的資訊跟調用者說明這個方法的複雜性。</p>
+<p>思考一個用來將資料從資料庫中取回的函數。它需要連結遠端的電腦，從眾多來源中搜尋資料，執行整合和排序。我們可以稱呼這個函數為 <code>getData()</code> 但這個動詞和其他單純從記憶體中取回一個值的函數沒有任何區別。如果叫它 <code>fetchData()</code> 我們的意思是為了取回資料需要做更多的事情。</p>
+<p>作為一項規則， <code>get</code> 只能用在常量時間複雜度的函數上；其他複雜度要選擇能更好描述的動詞。例如，如果我們寫了一個用來計算數學算式並回傳的函數，最好的動詞就是 <code>calculate</code> 。</p>
+<p>試試描述以下的程式碼讓它符合它所做的。<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> getItem(<span class="variable">$match</span>) &#123;  </span><br><span class="line">    foreach (<span class="variable">$this-</span>&gt;items as <span class="variable">$item</span>) &#123;</span><br><span class="line">        if (<span class="variable">$item</span> === <span class="variable">$match</span>) &#123;</span><br><span class="line">            return <span class="variable">$item</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我們可以說這個函數之所以出現是為了搜尋集合以找到一個符合指定參數的值。從這段描述中我們可以直接取出一個比 <code>get</code> 更好的動詞；在這個例子中不管是 <code>search</code> 或是 <code>find</code> 都會比 <code>get</code> 更能傳達它的複雜度給調用者，所以我們應該重新命名這個函數為 <code>findItem</code> 。</p>
+<h2 id="不要使用_do">不要使用 <em>do</em></h2><p>由於每個方法都是在<em>做</em>某件事，選擇 <code>do</code> 來當動詞並沒有傳達關於這個方法在到底在做什麼的任何額外資訊。 <code>Do</code> 再加上 <code>handle</code> 、 <code>perform</code> 、 <code>return</code> 、 <code>compute</code> 和其他同義詞是幾種常見且應該避免的動詞。</p>
+<p>某些動詞，像是 <code>call</code> 、 <code>execute</code> 、 <code>run</code> 、 <code>prepare</code>，則在可用的邊緣。使用它們不總是錯誤的，但如果我們發現自己想使用它們，先暫停一下，考慮看看是否有更好描述這個方法在做什麼的動詞。</p>
+<h2 id="回傳類型為布林值">回傳類型為布林值</h2><p>當方法回傳 <code>true</code> 或 <code>false</code> 時以 <code>is</code> 或 <code>are</code> 作為開頭（取決於是單數或複數）。這些方法提出問題像： <code>Button::isEnabled()</code> 、 <code>File::isLocked()</code> 或是 <code>Inputs::areValid()</code> 。</p>
+<p>在 Ruby 中發現另一種慣例是通過附加一個問號而非前綴動詞來定義問題。以前面例子來說那些方法將分別被命名為 <code>enabled?</code> 、<code>locked?</code> 或 <code>valid?</code> 。如果你使用語言的語法支持，你不妨使用這種約定。</p>
+<h2 id="目標推理">目標推理</h2><p>函數( funcion )和方法( method )之間有細微的差別。方法指的是一個函數運行在某個對象底下，如我們定義的類別( class )。我們說，該方法綁定在某個類或對象，因為當它執行時可以存取該對象中的數據。</p>
+<p>有時僅需要一個動詞就足以推斷綁定於某個對象的方法在做什麼。例如，一個方法用來儲存訊息我們通常會叫他 <code>saveMessage</code> 。這個方法包括一個指定操作的目標 ( message )。然而，當這個目標和此方法被綁定的對象名稱一樣時，我們可以省略它，只需要將我們的方法命名為 <code>save</code> 。這個主題將從綁定的對象上推斷出來，而且更加直觀像是 <code>$message-&gt;save()</code> 而非 <code>$message-&gt;saveMessage()</code> 。</p>
+<h2 id="不要描述參數">不要描述參數</h2><p>一個方法的簽名包括方法名稱和需要的參數。當使用一個方法時，我們需要同時獲得這兩者，所以這只是在名稱上重複描述所需要的參數。當一個方法簽名為 <code>findUserByUserIdAndToken($userId, $token)</code> 時，他可以被簡化為 <code>findUser($userId, $token)</code> 。</p>
+<p>在某些支持方法重載的語言，如 C++ ， C# 和 Java 裡，我們能夠始終遵循這一規則。然而某些最流行的腳本語言如 JavaScrip ， PHP ， Python 和 Ruby 並不支持方法重載，這代表我們不能擁用兩個同名但需要不同參數的方法。在這種情況下，打破這個規則用來區分使用不同參數的方法可能是必要的。</p>
+<h2 id="總結">總結</h2><p>我們了解到一些語義規則，可以應用到我們的函數和方法，以幫助決定正確的名稱。最重要的是，所有的方法名稱必需以動詞開始。如果我們這樣描述我們的方法做些什麼，並注意不要使用一些應該避免的單字，我們應該能夠選擇最合適的動詞來開始我們的方法名。</p>
+<p>有些人認為文件比程式碼更重要。如果程式碼錯了但沒有文件時，會因為我們不知道它想要做些什麼或為什麼這麼做而導致很難修復。當一個系統明確地描述時，我們便可以做正確的決策去修復它。正確命名我們的方法只是擁有好文件的第一步，更進一步我們應該考慮文件化每一個類和方法，反過來說，這也幫助我們命名我們的方法。</p>
+<h2 id="原文網址">原文網址</h2><p><a href="http://codelegance.com/semantic-method-naming/" target="_blank" rel="external">Semantic method naming</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>正確命名這件事是個艱難的編碼任務。然而，這只是因為我們給予這些任務的考慮經常不足，這篇文章主要在說怎麼為函數正確的命名。</p>]]>
+    
+    </summary>
+    
+      <category term="Clean Code" scheme="http://qadk.github.io/tags/clean-code/"/>
+    
+      <category term="Clean Code" scheme="http://qadk.github.io/categories/clean-code/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Git 常用基本設定]]></title>
