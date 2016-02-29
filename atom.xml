@@ -1,270 +1,355 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title><![CDATA[Yuhui's Notes]]></title>
-  <subtitle><![CDATA[Nerver Stop Learning.]]></subtitle>
+  <title>Yuhui&#39;s Notes</title>
+  <subtitle>Nerver Stop Learning.</subtitle>
   <link href="/atom.xml" rel="self"/>
+  
   <link href="http://yuhui.im/"/>
-  <updated>2016-01-10T15:48:43.000Z</updated>
+  <updated>2016-02-29T07:43:25.000Z</updated>
   <id>http://yuhui.im/</id>
   
   <author>
-    <name><![CDATA[Yuhui]]></name>
+    <name>Yuhui</name>
     
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[建立和管理各專案獨立的 Laravel Homestead]]></title>
+    <title>開發你的第一個 Composer 套件</title>
+    <link href="http://yuhui.im/2016/02/29/create-your-first-composer-package/"/>
+    <id>http://yuhui.im/2016/02/29/create-your-first-composer-package/</id>
+    <published>2016-02-29T06:19:30.000Z</published>
+    <updated>2016-02-29T07:43:25.000Z</updated>
+    
+    <content type="html">&lt;p&gt;有些功能可以獨立於專案外運作且多個專案都會需要用到它時，手動複製 code 然後貼過去已經不是最好的辦法了，還是有新的想法可以造福人群，來試試自己做個 package 吧。&lt;/p&gt;
+&lt;p&gt;如果是私有的套件不想上傳公開平台 ( &lt;a href=&quot;https://github.com&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GitHub&lt;/a&gt; / &lt;a href=&quot;https://packagist.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Packagist&lt;/a&gt; )，這裡也會帶到&lt;a href=&quot;#私人套件-Bitbucket&quot;&gt;私有項目&lt;/a&gt;的掛載辦法。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;建立套件資料夾結構&quot;&gt;&lt;a href=&quot;#建立套件資料夾結構&quot; class=&quot;headerlink&quot; title=&quot;建立套件資料夾結構&quot;&gt;&lt;/a&gt;建立套件資料夾結構&lt;/h2&gt;&lt;p&gt;建議使用 &lt;a href=&quot;http://www.php-fig.org/psr/psr-4/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;psr-4&lt;/a&gt; 的規範來建立資料夾結構：&lt;br&gt;&lt;code&gt;package_name / src / say.php&lt;/code&gt;&lt;br&gt;在檔案中寫入&lt;br&gt;&lt;figure class=&quot;highlight php&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Qadk&lt;/span&gt;\&lt;span class=&quot;title&quot;&gt;HelloWorld&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Say&lt;/span&gt; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;Hello World&quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;還是有不少套件使用 &lt;a href=&quot;http://www.php-fig.org/psr/psr-0/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;psr-0&lt;/a&gt; 的規範，同樣能運作，但已過時不推薦使用。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;建立套件的-composer-json&quot;&gt;&lt;a href=&quot;#建立套件的-composer-json&quot; class=&quot;headerlink&quot; title=&quot;建立套件的 composer.json&quot;&gt;&lt;/a&gt;建立套件的 composer.json&lt;/h2&gt;&lt;p&gt;既然是做 composer 套件，當然有一些基本的設定要跟 composer 宣告套件要做些什麼、有哪些使用限制、作者是誰…等資訊，所以第一步利用 composer 提供的設定檔建立工具來完成基本設定工作。&lt;br&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;where&lt;/span&gt;/your/package/path&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;composer init&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;一一回答相關問題(後面都可以在設定檔中修改)：&lt;br&gt;&lt;figure class=&quot;highlight livescript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Package name (&amp;lt;vendor&amp;gt;/&amp;lt;name&amp;gt;) [root/package]: qadk/package&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 套件的名稱，如果不知道 vendor 要放什麼，就放上 github 帳號吧 &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Description []: test package&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 一些簡單的說明&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Author []:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 作者的聯絡資訊&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Minimum Stability []: dev&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 最低的可用版本 &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Package Type []:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 簡單的分類，可能是 wordpress-plugin, laravel-bundle 之類&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;License []:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 版權聲明&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Define your dependencies.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 設定套件需要依賴的其他套件，輸入 yes 的話會以問答方式協助找到想掛入的套件，我比較喜歡之後在設定檔中直接修改設定，所以通常都直接略過&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Would you like &lt;span class=&quot;keyword&quot;&gt;to&lt;/span&gt; define your dependencies (&lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;) interactively [&lt;span class=&quot;literal&quot;&gt;yes&lt;/span&gt;]? &lt;span class=&quot;literal&quot;&gt;no&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Would you like &lt;span class=&quot;keyword&quot;&gt;to&lt;/span&gt; define your dev dependencies (&lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;-dev) interactively [&lt;span class=&quot;literal&quot;&gt;yes&lt;/span&gt;]? &lt;span class=&quot;literal&quot;&gt;no&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;回答完這些問題後，就可以得到一隻基礎的 &lt;code&gt;composer.json&lt;/code&gt; 檔：&lt;br&gt;&lt;figure class=&quot;highlight json&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;&quot;name&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;qadk/package&quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;&quot;description&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;test package&quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;&quot;authors&quot;&lt;/span&gt;: [&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;attr&quot;&gt;&quot;name&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;hui&quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;attr&quot;&gt;&quot;email&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;qadk211062@gmail.com&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    ],&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;&quot;minimum-stability&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;dev&quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;&quot;require&quot;&lt;/span&gt;: &amp;#123;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;設定 composer 如何索引套件後，這個簡單的套件已經可以掛載運作啦。&lt;br&gt;&lt;figure class=&quot;highlight xquery&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;autoload&quot;&lt;/span&gt;: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;string&quot;&gt;&quot;psr-4&quot;&lt;/span&gt;: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;string&quot;&gt;&quot;Qadk\\HelloWorld\\&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;src/&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;簡易測試&quot;&gt;&lt;a href=&quot;#簡易測試&quot; class=&quot;headerlink&quot; title=&quot;簡易測試&quot;&gt;&lt;/a&gt;簡易測試&lt;/h2&gt;&lt;h3 id=&quot;試試-composer-能否順利對應到&quot;&gt;&lt;a href=&quot;#試試-composer-能否順利對應到&quot; class=&quot;headerlink&quot; title=&quot;試試 composer 能否順利對應到&quot;&gt;&lt;/a&gt;試試 composer 能否順利對應到&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;開啟 command line 移到資料夾中輸入 &lt;code&gt;composer install&lt;/code&gt; 讓 composer 載入相關的依賴套件和產生自動載入檔&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;建立測試檔案在套件的根目錄中，像這樣：&lt;code&gt;package_name / test.php&lt;/code&gt; ，檔案中記得把剛剛產生的自動載入檔讀進來：&lt;/p&gt;
+&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;php&quot;&gt;&lt;span class=&quot;meta&quot;&gt;&amp;lt;?php&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;require_once&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;__DIR__&lt;/span&gt; . &lt;span class=&quot;string&quot;&gt;&#39;/vendor/autoload.php&#39;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Qadk&lt;/span&gt;\&lt;span class=&quot;title&quot;&gt;HelloWorld&lt;/span&gt;\&lt;span class=&quot;title&quot;&gt;Say&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;echo&lt;/span&gt; Say::message();&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;執行&lt;code&gt;php test.php&lt;/code&gt; 順利印出 &lt;code&gt;Hello World&lt;/code&gt; 的話就完成了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;也可以將套件掛載入專案中測試-這裡以-Laravel-專案為例&quot;&gt;&lt;a href=&quot;#也可以將套件掛載入專案中測試-這裡以-Laravel-專案為例&quot; class=&quot;headerlink&quot; title=&quot;也可以將套件掛載入專案中測試(這裡以 Laravel 專案為例)&quot;&gt;&lt;/a&gt;也可以將套件掛載入專案中測試(這裡以 Laravel 專案為例)&lt;/h3&gt;&lt;p&gt;修改專案的 &lt;code&gt;composer.json&lt;/code&gt; 來將我們的套件掛進專案中吧，由於我們的套件沒有上傳到 packagist ，所以另外要加入套件的來源庫(本機路徑)，設定方式如下：&lt;br&gt;&lt;figure class=&quot;highlight prolog&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;repositories&quot;&lt;/span&gt;: [&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;string&quot;&gt;&quot;type&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;path&quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;string&quot;&gt;&quot;url&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;../helloworld&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;],&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;require&quot;&lt;/span&gt;: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;string&quot;&gt;&quot;qadk/helloworld&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;@dev&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;設定完以後別忘了在專案根目錄中執行 &lt;code&gt;composer update&lt;/code&gt; ，接著就可以在專案中自由使用套件了，這裡示範在 &lt;code&gt;routes.php&lt;/code&gt; 裡使用剛剛做的套件。&lt;br&gt;&lt;figure class=&quot;highlight php&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Route::get(&lt;span class=&quot;string&quot;&gt;&#39;hi&#39;&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; Qadk\HelloWorld\Say::message();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;使用檔案路徑的好處是，檔案是連動的，修改完可以馬上在專案中測試，不需要重新 &lt;code&gt;composer update&lt;/code&gt; 。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;發佈&quot;&gt;&lt;a href=&quot;#發佈&quot; class=&quot;headerlink&quot; title=&quot;發佈&quot;&gt;&lt;/a&gt;發佈&lt;/h2&gt;&lt;h3 id=&quot;公開套件-GitHub-Packagist&quot;&gt;&lt;a href=&quot;#公開套件-GitHub-Packagist&quot; class=&quot;headerlink&quot; title=&quot;公開套件 ( GitHub + Packagist )&quot;&gt;&lt;/a&gt;公開套件 ( GitHub + Packagist )&lt;/h3&gt;&lt;p&gt;現在我們需要把套件上傳到 GitHub 上，記得先建立一個公開的 repo ， &lt;code&gt;username/helloworld&lt;/code&gt; ，接著在專案根目錄中執行：&lt;br&gt;&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git init &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git add . &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git commit -m &lt;span class=&quot;string&quot;&gt;&quot;First commit&quot;&lt;/span&gt; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git remote add origin git@github&lt;span class=&quot;selector-class&quot;&gt;.com&lt;/span&gt;:qadk/helloworld&lt;span class=&quot;selector-class&quot;&gt;.git&lt;/span&gt; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git push origin master&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;成功上傳後，我們就可以到 Packagist 上註冊我們的套件了：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;登入 Packagist&lt;/li&gt;
+&lt;li&gt;右上角 Submit&lt;/li&gt;
+&lt;li&gt;輸入 &lt;code&gt;git://github.com/qadk/helloworld&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;確認無誤後按下 Submit 就成功了&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;私人套件-Bitbucket&quot;&gt;&lt;a href=&quot;#私人套件-Bitbucket&quot; class=&quot;headerlink&quot; title=&quot;私人套件 ( Bitbucket )&quot;&gt;&lt;/a&gt;私人套件 ( Bitbucket )&lt;/h3&gt;&lt;p&gt;前面的上傳步驟與&lt;a href=&quot;#公開套件-GitHub-Packagist&quot;&gt;公開套件&lt;/a&gt; 相同，差別只在於改傳到 Bitbucket 中，但後面的掛入專案因為是私有的資源庫，所以我們在掛入專案時必需在專案的 &lt;code&gt;composer.json&lt;/code&gt; 中另外設定：&lt;br&gt;&lt;figure class=&quot;highlight perl&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;repositories&quot;&lt;/span&gt;: [&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;string&quot;&gt;&quot;type&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;vcs&quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;string&quot;&gt;&quot;url&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;git@bitbucket.org:qadk/helloworld.git&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;],&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;這裡的 &lt;code&gt;url&lt;/code&gt; 可以選擇使用 &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;https&lt;/code&gt; : &lt;code&gt;https://qadk@bitbucket.org/qadk/helloworld.git&lt;/code&gt; ，在執行 &lt;code&gt;composer update&lt;/code&gt; 時會需要輸入有權限讀取這個 repo 的帳號和密碼&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ssh&lt;/code&gt; : &lt;code&gt;git@bitbucket.org:qadk/helloworld.git&lt;/code&gt; 需要另外設置 ssh 相關的 key 。(可參考這裡 &lt;a href=&quot;https://confluence.atlassian.com/bitbucket/set-up-ssh-for-git-728138079.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Set up SSH for Git&lt;/a&gt; )&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;設定版本號&quot;&gt;&lt;a href=&quot;#設定版本號&quot; class=&quot;headerlink&quot; title=&quot;設定版本號&quot;&gt;&lt;/a&gt;設定版本號&lt;/h3&gt;&lt;p&gt;composer 的版本號，吃的是 Git 的 tag ，所以先來把剛剛的 commit 加上 tag 並上傳吧。&lt;br&gt;&lt;figure class=&quot;highlight crmsh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git &lt;span class=&quot;keyword&quot;&gt;tag&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;v1&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0.0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git push origin --tags&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;到 Packagist 的套件頁上按 &lt;code&gt;Update&lt;/code&gt; 後就可以在掛載套件時選擇已經設定好的版本號了。EX: &lt;code&gt;&amp;quot;qadk/helloworld&amp;quot;: &amp;quot;1.0.0&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&quot;參考資料&quot;&gt;&lt;a href=&quot;#參考資料&quot; class=&quot;headerlink&quot; title=&quot;參考資料&quot;&gt;&lt;/a&gt;參考資料&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://getcomposer.org/doc/05-repositories.md#loading-a-package-from-a-vcs-repository&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Composer Repositories&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://igor.io/2013/02/07/composer-stability-flags.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Composer Stability Flags&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://getcomposer.org/doc/04-schema.md#version&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Composer Version&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://git-scm.com/book/zh-tw/v1/Git-%E5%9F%BA%E7%A4%8E-%E6%A8%99%E7%B1%A4&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Git 標籤&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;有些功能可以獨立於專案外運作且多個專案都會需要用到它時，手動複製 code 然後貼過去已經不是最好的辦法了，還是有新的想法可以造福人群，來試試自己做個 package 吧。&lt;/p&gt;
+&lt;p&gt;如果是私有的套件不想上傳公開平台 ( &lt;a href=&quot;https://github.com&quot;&gt;GitHub&lt;/a&gt; / &lt;a href=&quot;https://packagist.org/&quot;&gt;Packagist&lt;/a&gt; )，這裡也會帶到&lt;a href=&quot;#私人套件-Bitbucket&quot;&gt;私有項目&lt;/a&gt;的掛載辦法。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="PHP" scheme="http://yuhui.im/categories/php/"/>
+    
+    
+      <category term="Composer" scheme="http://yuhui.im/tags/composer/"/>
+    
+      <category term="Git" scheme="http://yuhui.im/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>建立和管理各專案獨立的 Laravel Homestead</title>
     <link href="http://yuhui.im/2016/01/10/installation-and-management-of-the-project-independent-of-homestead/"/>
     <id>http://yuhui.im/2016/01/10/installation-and-management-of-the-project-independent-of-homestead/</id>
     <published>2016-01-10T15:43:27.000Z</published>
     <updated>2016-01-10T15:48:43.000Z</updated>
-    <content type="html"><![CDATA[<p>laravel/homestead 版本已經來到 0.4.0 ，其中最大的差異大概是 php 版本來到了 7.0。當新專案想用 7.0 來開發，但手邊需要維護的專案還維持在 5.6 時，我們可以使用專案獨立的 homestead 來建造不同的環境。</p>
-<a id="more"></a>
-<h2 id="使用_laravel/homestead_建立相關設定檔">使用 laravel/homestead 建立相關設定檔</h2><h3 id="安裝_laravel/homestead">安裝 laravel/homestead</h3><p>Laravel 有提供一份完整的設定檔和建立的指令，我們只需要將它掛進來就能快速的完成相關設定。</p>
-<p>利用 composer 將設定包掛載進來 <code>composer require laravel/homestead</code> 。</p>
-<h3 id="配置相關設定檔">配置相關設定檔</h3><p>使用<code>php artisan homestead:make</code> 建立設定檔，會在專案根目錄中建立兩個檔案： <code>Homestead.yaml</code> 、 <code>Vagrantfile</code> 並且將當前資料夾的同步和站點對應都設定好，檢查一下設定檔沒有問題的話，就可以啟動新環境了。</p>
-<blockquote>
-<p>如果有同時啟動兩個以上 Homestead 的需求，記得將 <code>Homestead.yaml</code> 中的 <code>ip</code> 設定修改一下避免衝突。</p>
-</blockquote>
-<h4 id="如果想要使用指定版本的_Box">如果想要使用指定版本的 Box</h4><p>在 <code>Homestead.yaml</code> 中加入 <code>Version: 0.2.7</code> 即可使用指定版本。</p>
-<p>加入後大概會長這樣：<br><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">ip</span>: <span class="string">"192.168.10.11"</span></span><br><span class="line"><span class="attribute">memory</span>: <span class="string">2048</span></span><br><span class="line"><span class="attribute">cpus</span>: <span class="string">1</span></span><br><span class="line"><span class="attribute">hostname</span>: <span class="string">test</span></span><br><span class="line"><span class="attribute">name</span>: <span class="string">test</span></span><br><span class="line"><span class="attribute">provider</span>: <span class="string">virtualbox</span></span><br><span class="line"><span class="attribute">version</span>: <span class="string">0.3.3</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="啟動新環境並連線">啟動新環境並連線</h3><p>設定檔調整完畢後就可以在專案的根目錄輸入 <code>vagrant up</code> 來啟動新環境了，如果指定的版本號之前並沒有載好的話會在這步驟時自動下載，虛擬機開完後輸入 <code>vagrant ssh</code> 就能連入虛擬機。（預設密碼：<code>vagrant</code>）</p>
-<blockquote>
-<p>要對這台虛擬機下指令都需要在 <code>Vagrantfile</code> 同層的位置，也就是專案的根目錄裡，除非有另外設置<a href="https://laravel.tw/docs/5.2/homestead#accessing-homestead-globally" target="_blank" rel="external">全域存取 Homestead</a></p>
-</blockquote>
-<h2 id="一些_Box_管理指令">一些 Box 管理指令</h2><h3 id="新增指定版本">新增指定版本</h3><p><code>vagrant box add laravel/homestead --box-version 0.3.3</code></p>
-<h3 id="刪除指定版本">刪除指定版本</h3><p><code>vagrant box remove laravel/homestead --box-version 0.3.3</code></p>
-<h3 id="更新">更新</h3><p><code>vagrant box update</code></p>
-<blockquote>
-<p>注意：這裡的更新並不會自動刪除/重新建立環境，而是下載新的 Box ，如果想要更換 Box 版本，請刪除後再用新的 Box 重新建立。</p>
-</blockquote>
-<h2 id="Laravel_Homestead_版本差異簡單整理">Laravel Homestead 版本差異簡單整理</h2><blockquote>
-<p>不負責聲明：這些版本號於 2016/01/06 測試安裝時整理，實際安裝時可能會有版本落差</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>Box</th>
-<th>Ubuntu</th>
-<th>PHP</th>
-<th>HHVM</th>
-<th>Nginx</th>
-<th>MySQL</th>
-<th>Postgres</th>
-<th>Node</th>
-<th>Redis</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0.2.5</td>
-<td>14.10</td>
-<td>5.6.6</td>
-<td>3.5.1</td>
-<td>1.6.2</td>
-<td>5.6.19</td>
-<td>9.4.1</td>
-<td>0.10.33</td>
-<td>2.8.19</td>
-</tr>
-<tr>
-<td>0.2.7</td>
-<td>14.04.2</td>
-<td>5.6.10</td>
-<td>?</td>
-<td>1.8.0</td>
-<td>5.6.19</td>
-<td>9.4.4</td>
-<td>0.10.37</td>
-<td>3.0.2</td>
-</tr>
-<tr>
-<td>0.3.3</td>
-<td>14.04.1</td>
-<td>5.6.15</td>
-<td>3.10.1</td>
-<td>1.8.0</td>
-<td>5.7.9</td>
-<td>9.4.5</td>
-<td>5.0.0</td>
-<td>3.0.5</td>
-</tr>
-<tr>
-<td>0.4.0</td>
-<td>14.04.3</td>
-<td>7.0.1</td>
-<td>3.11.0</td>
-<td>1.9.7</td>
-<td>5.7.10</td>
-<td>9.4.5</td>
-<td>5.3.0</td>
-<td>3.0.6</td>
-</tr>
-</tbody>
-</table>
-<h2 id="參考資料">參考資料</h2><p><a href="https://laravel.tw/docs/5.2/homestead#per-project-installation" target="_blank" rel="external">Laravel - 根據專案分別安裝</a><br><a href="https://docs.vagrantup.com/v2/boxes/versioning.html" target="_blank" rel="external">Vagrant - Box Versioning</a><br><a href="https://github.com/laravel/homestead" target="_blank" rel="external">GitHub - Laravel/Homestead</a><br><a href="https://atlas.hashicorp.com/laravel/boxes/homestead" target="_blank" rel="external">Atlas - laravel/homestead - box versions</a></p>
-]]></content>
+    
+    <content type="html">&lt;p&gt;laravel/homestead 版本已經來到 0.4.0 ，其中最大的差異大概是 php 版本來到了 7.0。當新專案想用 7.0 來開發，但手邊需要維護的專案還維持在 5.6 時，我們可以使用專案獨立的 homestead 來建造不同的環境。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;使用-laravel-homestead-建立相關設定檔&quot;&gt;&lt;a href=&quot;#使用-laravel-homestead-建立相關設定檔&quot; class=&quot;headerlink&quot; title=&quot;使用 laravel/homestead 建立相關設定檔&quot;&gt;&lt;/a&gt;使用 laravel/homestead 建立相關設定檔&lt;/h2&gt;&lt;h3 id=&quot;安裝-laravel-homestead&quot;&gt;&lt;a href=&quot;#安裝-laravel-homestead&quot; class=&quot;headerlink&quot; title=&quot;安裝 laravel/homestead&quot;&gt;&lt;/a&gt;安裝 laravel/homestead&lt;/h3&gt;&lt;p&gt;Laravel 有提供一份完整的設定檔和建立的指令，我們只需要將它掛進來就能快速的完成相關設定。&lt;/p&gt;
+&lt;p&gt;利用 composer 將設定包掛載進來 &lt;code&gt;composer require laravel/homestead&lt;/code&gt; 。&lt;/p&gt;
+&lt;h3 id=&quot;配置相關設定檔&quot;&gt;&lt;a href=&quot;#配置相關設定檔&quot; class=&quot;headerlink&quot; title=&quot;配置相關設定檔&quot;&gt;&lt;/a&gt;配置相關設定檔&lt;/h3&gt;&lt;p&gt;使用&lt;code&gt;php artisan homestead:make&lt;/code&gt; 建立設定檔，會在專案根目錄中建立兩個檔案： &lt;code&gt;Homestead.yaml&lt;/code&gt; 、 &lt;code&gt;Vagrantfile&lt;/code&gt; 並且將當前資料夾的同步和站點對應都設定好，檢查一下設定檔沒有問題的話，就可以啟動新環境了。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果有同時啟動兩個以上 Homestead 的需求，記得將 &lt;code&gt;Homestead.yaml&lt;/code&gt; 中的 &lt;code&gt;ip&lt;/code&gt; 設定修改一下避免衝突。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&quot;如果想要使用指定版本的-Box&quot;&gt;&lt;a href=&quot;#如果想要使用指定版本的-Box&quot; class=&quot;headerlink&quot; title=&quot;如果想要使用指定版本的 Box&quot;&gt;&lt;/a&gt;如果想要使用指定版本的 Box&lt;/h4&gt;&lt;p&gt;在 &lt;code&gt;Homestead.yaml&lt;/code&gt; 中加入 &lt;code&gt;Version: 0.2.7&lt;/code&gt; 即可使用指定版本。&lt;/p&gt;
+&lt;p&gt;加入後大概會長這樣：&lt;br&gt;&lt;figure class=&quot;highlight avrasm&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;ip:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;192.168.10.11&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;memory:&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;2048&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;cpus:&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;hostname:&lt;/span&gt; test&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;name:&lt;/span&gt; test&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;provider:&lt;/span&gt; virtualbox&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;version:&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0.3&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;.3&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;啟動新環境並連線&quot;&gt;&lt;a href=&quot;#啟動新環境並連線&quot; class=&quot;headerlink&quot; title=&quot;啟動新環境並連線&quot;&gt;&lt;/a&gt;啟動新環境並連線&lt;/h3&gt;&lt;p&gt;設定檔調整完畢後就可以在專案的根目錄輸入 &lt;code&gt;vagrant up&lt;/code&gt; 來啟動新環境了，如果指定的版本號之前並沒有載好的話會在這步驟時自動下載，虛擬機開完後輸入 &lt;code&gt;vagrant ssh&lt;/code&gt; 就能連入虛擬機。（預設密碼：&lt;code&gt;vagrant&lt;/code&gt;）&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;要對這台虛擬機下指令都需要在 &lt;code&gt;Vagrantfile&lt;/code&gt; 同層的位置，也就是專案的根目錄裡，除非有另外設置&lt;a href=&quot;https://laravel.tw/docs/5.2/homestead#accessing-homestead-globally&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;全域存取 Homestead&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;一些-Box-管理指令&quot;&gt;&lt;a href=&quot;#一些-Box-管理指令&quot; class=&quot;headerlink&quot; title=&quot;一些 Box 管理指令&quot;&gt;&lt;/a&gt;一些 Box 管理指令&lt;/h2&gt;&lt;h3 id=&quot;新增指定版本&quot;&gt;&lt;a href=&quot;#新增指定版本&quot; class=&quot;headerlink&quot; title=&quot;新增指定版本&quot;&gt;&lt;/a&gt;新增指定版本&lt;/h3&gt;&lt;p&gt;&lt;code&gt;vagrant box add laravel/homestead --box-version 0.3.3&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&quot;刪除指定版本&quot;&gt;&lt;a href=&quot;#刪除指定版本&quot; class=&quot;headerlink&quot; title=&quot;刪除指定版本&quot;&gt;&lt;/a&gt;刪除指定版本&lt;/h3&gt;&lt;p&gt;&lt;code&gt;vagrant box remove laravel/homestead --box-version 0.3.3&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&quot;更新&quot;&gt;&lt;a href=&quot;#更新&quot; class=&quot;headerlink&quot; title=&quot;更新&quot;&gt;&lt;/a&gt;更新&lt;/h3&gt;&lt;p&gt;&lt;code&gt;vagrant box update&lt;/code&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意：這裡的更新並不會自動刪除/重新建立環境，而是下載新的 Box ，如果想要更換 Box 版本，請刪除後再用新的 Box 重新建立。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;Laravel-Homestead-版本差異簡單整理&quot;&gt;&lt;a href=&quot;#Laravel-Homestead-版本差異簡單整理&quot; class=&quot;headerlink&quot; title=&quot;Laravel Homestead 版本差異簡單整理&quot;&gt;&lt;/a&gt;Laravel Homestead 版本差異簡單整理&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;不負責聲明：這些版本號於 2016/01/06 測試安裝時整理，實際安裝時可能會有版本落差&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Box&lt;/th&gt;
+&lt;th&gt;Ubuntu&lt;/th&gt;
+&lt;th&gt;PHP&lt;/th&gt;
+&lt;th&gt;HHVM&lt;/th&gt;
+&lt;th&gt;Nginx&lt;/th&gt;
+&lt;th&gt;MySQL&lt;/th&gt;
+&lt;th&gt;Postgres&lt;/th&gt;
+&lt;th&gt;Node&lt;/th&gt;
+&lt;th&gt;Redis&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;0.2.5&lt;/td&gt;
+&lt;td&gt;14.10&lt;/td&gt;
+&lt;td&gt;5.6.6&lt;/td&gt;
+&lt;td&gt;3.5.1&lt;/td&gt;
+&lt;td&gt;1.6.2&lt;/td&gt;
+&lt;td&gt;5.6.19&lt;/td&gt;
+&lt;td&gt;9.4.1&lt;/td&gt;
+&lt;td&gt;0.10.33&lt;/td&gt;
+&lt;td&gt;2.8.19&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;0.2.7&lt;/td&gt;
+&lt;td&gt;14.04.2&lt;/td&gt;
+&lt;td&gt;5.6.10&lt;/td&gt;
+&lt;td&gt;?&lt;/td&gt;
+&lt;td&gt;1.8.0&lt;/td&gt;
+&lt;td&gt;5.6.19&lt;/td&gt;
+&lt;td&gt;9.4.4&lt;/td&gt;
+&lt;td&gt;0.10.37&lt;/td&gt;
+&lt;td&gt;3.0.2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;0.3.3&lt;/td&gt;
+&lt;td&gt;14.04.1&lt;/td&gt;
+&lt;td&gt;5.6.15&lt;/td&gt;
+&lt;td&gt;3.10.1&lt;/td&gt;
+&lt;td&gt;1.8.0&lt;/td&gt;
+&lt;td&gt;5.7.9&lt;/td&gt;
+&lt;td&gt;9.4.5&lt;/td&gt;
+&lt;td&gt;5.0.0&lt;/td&gt;
+&lt;td&gt;3.0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;0.4.0&lt;/td&gt;
+&lt;td&gt;14.04.3&lt;/td&gt;
+&lt;td&gt;7.0.1&lt;/td&gt;
+&lt;td&gt;3.11.0&lt;/td&gt;
+&lt;td&gt;1.9.7&lt;/td&gt;
+&lt;td&gt;5.7.10&lt;/td&gt;
+&lt;td&gt;9.4.5&lt;/td&gt;
+&lt;td&gt;5.3.0&lt;/td&gt;
+&lt;td&gt;3.0.6&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&quot;參考資料&quot;&gt;&lt;a href=&quot;#參考資料&quot; class=&quot;headerlink&quot; title=&quot;參考資料&quot;&gt;&lt;/a&gt;參考資料&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://laravel.tw/docs/5.2/homestead#per-project-installation&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Laravel - 根據專案分別安裝&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://docs.vagrantup.com/v2/boxes/versioning.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Vagrant - Box Versioning&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://github.com/laravel/homestead&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GitHub - Laravel/Homestead&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://atlas.hashicorp.com/laravel/boxes/homestead&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Atlas - laravel/homestead - box versions&lt;/a&gt;&lt;/p&gt;
+</content>
+    
     <summary type="html">
-    <![CDATA[<p>laravel/homestead 版本已經來到 0.4.0 ，其中最大的差異大概是 php 版本來到了 7.0。當新專案想用 7.0 來開發，但手邊需要維護的專案還維持在 5.6 時，我們可以使用專案獨立的 homestead 來建造不同的環境。</p>]]>
+    
+      &lt;p&gt;laravel/homestead 版本已經來到 0.4.0 ，其中最大的差異大概是 php 版本來到了 7.0。當新專案想用 7.0 來開發，但手邊需要維護的專案還維持在 5.6 時，我們可以使用專案獨立的 homestead 來建造不同的環境。&lt;/p&gt;
     
     </summary>
-    
-      <category term="Laravel Homestead" scheme="http://yuhui.im/tags/laravel-homestead/"/>
     
       <category term="PHP" scheme="http://yuhui.im/categories/php/"/>
     
       <category term="Laravel" scheme="http://yuhui.im/categories/php/laravel/"/>
     
+    
+      <category term="Laravel Homestead" scheme="http://yuhui.im/tags/laravel-homestead/"/>
+    
   </entry>
   
   <entry>
-    <title><![CDATA[語義化函數命名]]></title>
+    <title>語義化函數命名</title>
     <link href="http://yuhui.im/2015/12/26/semantic-method-naming/"/>
     <id>http://yuhui.im/2015/12/26/semantic-method-naming/</id>
     <published>2015-12-26T04:16:07.000Z</published>
     <updated>2015-12-26T04:26:44.000Z</updated>
-    <content type="html"><![CDATA[<p>正確命名這件事是個艱難的編碼任務。然而，這只是因為我們給予這些任務的考慮經常不足，這篇文章主要在說怎麼為函數正確的命名。</p>
-<a id="more"></a>
-<p>雖然我們專注於命名，但其實文件化和命名可以協助彼此更好。一旦我們習慣為每個函數寫作文檔說明這個函數到底在幹嘛，這會幫助我們正確命名自己的函數。如果文件很棒，那麼通常命名只需要從文檔中選擇正確的字就好。我們可以使用這個技巧檢驗函數名稱和文件是否意見一致，如果他們在表達不同事情的話，一定有其中一方是錯誤的。</p>
-<p>來建立我們最初也最重要的規則：所有的函數都是在做某件事，所以它們的名字需要從<strong>動詞</strong>開始。接下來我們可以看如何選擇最好的動詞來傳達我們函數到底在幹嘛。</p>
-<h2 id="減少_Get">減少 Get</h2><p>我們編寫的許多函數大都會回傳一個值，選擇 <code>get</code> 做為大多數函數的動詞是一個常見的錯誤。<code>Get</code> 使用在去訪問或執行簡單的操作是很好的，像是取出一個指針，但沒有傳達足夠多的資訊跟調用者說明這個方法的複雜性。</p>
-<p>思考一個用來將資料從資料庫中取回的函數。它需要連結遠端的電腦，從眾多來源中搜尋資料，執行整合和排序。我們可以稱呼這個函數為 <code>getData()</code> 但這個動詞和其他單純從記憶體中取回一個值的函數沒有任何區別。如果叫它 <code>fetchData()</code> 我們的意思是為了取回資料需要做更多的事情。</p>
-<p>作為一項規則， <code>get</code> 只能用在常量時間複雜度的函數上；其他複雜度要選擇能更好描述的動詞。例如，如果我們寫了一個用來計算數學算式並回傳的函數，最好的動詞就是 <code>calculate</code> 。</p>
-<p>試試描述以下的程式碼讓它符合它所做的。<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> getItem(<span class="variable">$match</span>) &#123;  </span><br><span class="line">    foreach (<span class="variable">$this-</span>&gt;items as <span class="variable">$item</span>) &#123;</span><br><span class="line">        if (<span class="variable">$item</span> === <span class="variable">$match</span>) &#123;</span><br><span class="line">            return <span class="variable">$item</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>我們可以說這個函數之所以出現是為了搜尋集合以找到一個符合指定參數的值。從這段描述中我們可以直接取出一個比 <code>get</code> 更好的動詞；在這個例子中不管是 <code>search</code> 或是 <code>find</code> 都會比 <code>get</code> 更能傳達它的複雜度給調用者，所以我們應該重新命名這個函數為 <code>findItem</code> 。</p>
-<h2 id="不要使用_do">不要使用 <em>do</em></h2><p>由於每個方法都是在<em>做</em>某件事，選擇 <code>do</code> 來當動詞並沒有傳達關於這個方法在到底在做什麼的任何額外資訊。 <code>Do</code> 再加上 <code>handle</code> 、 <code>perform</code> 、 <code>return</code> 、 <code>compute</code> 和其他同義詞是幾種常見且應該避免的動詞。</p>
-<p>某些動詞，像是 <code>call</code> 、 <code>execute</code> 、 <code>run</code> 、 <code>prepare</code>，則在可用的邊緣。使用它們不總是錯誤的，但如果我們發現自己想使用它們，先暫停一下，考慮看看是否有更好描述這個方法在做什麼的動詞。</p>
-<h2 id="回傳類型為布林值">回傳類型為布林值</h2><p>當方法回傳 <code>true</code> 或 <code>false</code> 時以 <code>is</code> 或 <code>are</code> 作為開頭（取決於是單數或複數）。這些方法提出問題像： <code>Button::isEnabled()</code> 、 <code>File::isLocked()</code> 或是 <code>Inputs::areValid()</code> 。</p>
-<p>在 Ruby 中發現另一種慣例是通過附加一個問號而非前綴動詞來定義問題。以前面例子來說那些方法將分別被命名為 <code>enabled?</code> 、<code>locked?</code> 或 <code>valid?</code> 。如果你使用語言的語法支持，你不妨使用這種約定。</p>
-<h2 id="目標推理">目標推理</h2><p>函數( funcion )和方法( method )之間有細微的差別。方法指的是一個函數運行在某個對象底下，如我們定義的類別( class )。我們說，該方法綁定在某個類或對象，因為當它執行時可以存取該對象中的數據。</p>
-<p>有時僅需要一個動詞就足以推斷綁定於某個對象的方法在做什麼。例如，一個方法用來儲存訊息我們通常會叫他 <code>saveMessage</code> 。這個方法包括一個指定操作的目標 ( message )。然而，當這個目標和此方法被綁定的對象名稱一樣時，我們可以省略它，只需要將我們的方法命名為 <code>save</code> 。這個主題將從綁定的對象上推斷出來，而且更加直觀像是 <code>$message-&gt;save()</code> 而非 <code>$message-&gt;saveMessage()</code> 。</p>
-<h2 id="不要描述參數">不要描述參數</h2><p>一個方法的簽名包括方法名稱和需要的參數。當使用一個方法時，我們需要同時獲得這兩者，所以這只是在名稱上重複描述所需要的參數。當一個方法簽名為 <code>findUserByUserIdAndToken($userId, $token)</code> 時，他可以被簡化為 <code>findUser($userId, $token)</code> 。</p>
-<p>在某些支持方法重載的語言，如 C++ ， C# 和 Java 裡，我們能夠始終遵循這一規則。然而某些最流行的腳本語言如 JavaScrip ， PHP ， Python 和 Ruby 並不支持方法重載，這代表我們不能擁用兩個同名但需要不同參數的方法。在這種情況下，打破這個規則用來區分使用不同參數的方法可能是必要的。</p>
-<h2 id="總結">總結</h2><p>我們了解到一些語義規則，可以應用到我們的函數和方法，以幫助決定正確的名稱。最重要的是，所有的方法名稱必需以動詞開始。如果我們這樣描述我們的方法做些什麼，並注意不要使用一些應該避免的單字，我們應該能夠選擇最合適的動詞來開始我們的方法名。</p>
-<p>有些人認為文件比程式碼更重要。如果程式碼錯了但沒有文件時，會因為我們不知道它想要做些什麼或為什麼這麼做而導致很難修復。當一個系統明確地描述時，我們便可以做正確的決策去修復它。正確命名我們的方法只是擁有好文件的第一步，更進一步我們應該考慮文件化每一個類和方法，反過來說，這也幫助我們命名我們的方法。</p>
-<h2 id="原文網址">原文網址</h2><p><a href="http://codelegance.com/semantic-method-naming/" target="_blank" rel="external">Semantic method naming</a></p>
-]]></content>
+    
+    <content type="html">&lt;p&gt;正確命名這件事是個艱難的編碼任務。然而，這只是因為我們給予這些任務的考慮經常不足，這篇文章主要在說怎麼為函數正確的命名。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;雖然我們專注於命名，但其實文件化和命名可以協助彼此更好。一旦我們習慣為每個函數寫作文檔說明這個函數到底在幹嘛，這會幫助我們正確命名自己的函數。如果文件很棒，那麼通常命名只需要從文檔中選擇正確的字就好。我們可以使用這個技巧檢驗函數名稱和文件是否意見一致，如果他們在表達不同事情的話，一定有其中一方是錯誤的。&lt;/p&gt;
+&lt;p&gt;來建立我們最初也最重要的規則：所有的函數都是在做某件事，所以它們的名字需要從&lt;strong&gt;動詞&lt;/strong&gt;開始。接下來我們可以看如何選擇最好的動詞來傳達我們函數到底在幹嘛。&lt;/p&gt;
+&lt;h2 id=&quot;減少-Get&quot;&gt;&lt;a href=&quot;#減少-Get&quot; class=&quot;headerlink&quot; title=&quot;減少 Get&quot;&gt;&lt;/a&gt;減少 Get&lt;/h2&gt;&lt;p&gt;我們編寫的許多函數大都會回傳一個值，選擇 &lt;code&gt;get&lt;/code&gt; 做為大多數函數的動詞是一個常見的錯誤。&lt;code&gt;Get&lt;/code&gt; 使用在去訪問或執行簡單的操作是很好的，像是取出一個指針，但沒有傳達足夠多的資訊跟調用者說明這個方法的複雜性。&lt;/p&gt;
+&lt;p&gt;思考一個用來將資料從資料庫中取回的函數。它需要連結遠端的電腦，從眾多來源中搜尋資料，執行整合和排序。我們可以稱呼這個函數為 &lt;code&gt;getData()&lt;/code&gt; 但這個動詞和其他單純從記憶體中取回一個值的函數沒有任何區別。如果叫它 &lt;code&gt;fetchData()&lt;/code&gt; 我們的意思是為了取回資料需要做更多的事情。&lt;/p&gt;
+&lt;p&gt;作為一項規則， &lt;code&gt;get&lt;/code&gt; 只能用在常量時間複雜度的函數上；其他複雜度要選擇能更好描述的動詞。例如，如果我們寫了一個用來計算數學算式並回傳的函數，最好的動詞就是 &lt;code&gt;calculate&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;試試描述以下的程式碼讓它符合它所做的。&lt;br&gt;&lt;figure class=&quot;highlight xquery&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; getItem($match) &amp;#123;  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    foreach ($this-&amp;gt;items as $item) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        if ($item === $match) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            return $item;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;我們可以說這個函數之所以出現是為了搜尋集合以找到一個符合指定參數的值。從這段描述中我們可以直接取出一個比 &lt;code&gt;get&lt;/code&gt; 更好的動詞；在這個例子中不管是 &lt;code&gt;search&lt;/code&gt; 或是 &lt;code&gt;find&lt;/code&gt; 都會比 &lt;code&gt;get&lt;/code&gt; 更能傳達它的複雜度給調用者，所以我們應該重新命名這個函數為 &lt;code&gt;findItem&lt;/code&gt; 。&lt;/p&gt;
+&lt;h2 id=&quot;不要使用-do&quot;&gt;&lt;a href=&quot;#不要使用-do&quot; class=&quot;headerlink&quot; title=&quot;不要使用 do&quot;&gt;&lt;/a&gt;不要使用 &lt;em&gt;do&lt;/em&gt;&lt;/h2&gt;&lt;p&gt;由於每個方法都是在&lt;em&gt;做&lt;/em&gt;某件事，選擇 &lt;code&gt;do&lt;/code&gt; 來當動詞並沒有傳達關於這個方法在到底在做什麼的任何額外資訊。 &lt;code&gt;Do&lt;/code&gt; 再加上 &lt;code&gt;handle&lt;/code&gt; 、 &lt;code&gt;perform&lt;/code&gt; 、 &lt;code&gt;return&lt;/code&gt; 、 &lt;code&gt;compute&lt;/code&gt; 和其他同義詞是幾種常見且應該避免的動詞。&lt;/p&gt;
+&lt;p&gt;某些動詞，像是 &lt;code&gt;call&lt;/code&gt; 、 &lt;code&gt;execute&lt;/code&gt; 、 &lt;code&gt;run&lt;/code&gt; 、 &lt;code&gt;prepare&lt;/code&gt;，則在可用的邊緣。使用它們不總是錯誤的，但如果我們發現自己想使用它們，先暫停一下，考慮看看是否有更好描述這個方法在做什麼的動詞。&lt;/p&gt;
+&lt;h2 id=&quot;回傳類型為布林值&quot;&gt;&lt;a href=&quot;#回傳類型為布林值&quot; class=&quot;headerlink&quot; title=&quot;回傳類型為布林值&quot;&gt;&lt;/a&gt;回傳類型為布林值&lt;/h2&gt;&lt;p&gt;當方法回傳 &lt;code&gt;true&lt;/code&gt; 或 &lt;code&gt;false&lt;/code&gt; 時以 &lt;code&gt;is&lt;/code&gt; 或 &lt;code&gt;are&lt;/code&gt; 作為開頭（取決於是單數或複數）。這些方法提出問題像： &lt;code&gt;Button::isEnabled()&lt;/code&gt; 、 &lt;code&gt;File::isLocked()&lt;/code&gt; 或是 &lt;code&gt;Inputs::areValid()&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;在 Ruby 中發現另一種慣例是通過附加一個問號而非前綴動詞來定義問題。以前面例子來說那些方法將分別被命名為 &lt;code&gt;enabled?&lt;/code&gt; 、&lt;code&gt;locked?&lt;/code&gt; 或 &lt;code&gt;valid?&lt;/code&gt; 。如果你使用語言的語法支持，你不妨使用這種約定。&lt;/p&gt;
+&lt;h2 id=&quot;目標推理&quot;&gt;&lt;a href=&quot;#目標推理&quot; class=&quot;headerlink&quot; title=&quot;目標推理&quot;&gt;&lt;/a&gt;目標推理&lt;/h2&gt;&lt;p&gt;函數( funcion )和方法( method )之間有細微的差別。方法指的是一個函數運行在某個對象底下，如我們定義的類別( class )。我們說，該方法綁定在某個類或對象，因為當它執行時可以存取該對象中的數據。&lt;/p&gt;
+&lt;p&gt;有時僅需要一個動詞就足以推斷綁定於某個對象的方法在做什麼。例如，一個方法用來儲存訊息我們通常會叫他 &lt;code&gt;saveMessage&lt;/code&gt; 。這個方法包括一個指定操作的目標 ( message )。然而，當這個目標和此方法被綁定的對象名稱一樣時，我們可以省略它，只需要將我們的方法命名為 &lt;code&gt;save&lt;/code&gt; 。這個主題將從綁定的對象上推斷出來，而且更加直觀像是 &lt;code&gt;$message-&amp;gt;save()&lt;/code&gt; 而非 &lt;code&gt;$message-&amp;gt;saveMessage()&lt;/code&gt; 。&lt;/p&gt;
+&lt;h2 id=&quot;不要描述參數&quot;&gt;&lt;a href=&quot;#不要描述參數&quot; class=&quot;headerlink&quot; title=&quot;不要描述參數&quot;&gt;&lt;/a&gt;不要描述參數&lt;/h2&gt;&lt;p&gt;一個方法的簽名包括方法名稱和需要的參數。當使用一個方法時，我們需要同時獲得這兩者，所以這只是在名稱上重複描述所需要的參數。當一個方法簽名為 &lt;code&gt;findUserByUserIdAndToken($userId, $token)&lt;/code&gt; 時，他可以被簡化為 &lt;code&gt;findUser($userId, $token)&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;在某些支持方法重載的語言，如 C++ ， C# 和 Java 裡，我們能夠始終遵循這一規則。然而某些最流行的腳本語言如 JavaScrip ， PHP ， Python 和 Ruby 並不支持方法重載，這代表我們不能擁用兩個同名但需要不同參數的方法。在這種情況下，打破這個規則用來區分使用不同參數的方法可能是必要的。&lt;/p&gt;
+&lt;h2 id=&quot;總結&quot;&gt;&lt;a href=&quot;#總結&quot; class=&quot;headerlink&quot; title=&quot;總結&quot;&gt;&lt;/a&gt;總結&lt;/h2&gt;&lt;p&gt;我們了解到一些語義規則，可以應用到我們的函數和方法，以幫助決定正確的名稱。最重要的是，所有的方法名稱必需以動詞開始。如果我們這樣描述我們的方法做些什麼，並注意不要使用一些應該避免的單字，我們應該能夠選擇最合適的動詞來開始我們的方法名。&lt;/p&gt;
+&lt;p&gt;有些人認為文件比程式碼更重要。如果程式碼錯了但沒有文件時，會因為我們不知道它想要做些什麼或為什麼這麼做而導致很難修復。當一個系統明確地描述時，我們便可以做正確的決策去修復它。正確命名我們的方法只是擁有好文件的第一步，更進一步我們應該考慮文件化每一個類和方法，反過來說，這也幫助我們命名我們的方法。&lt;/p&gt;
+&lt;h2 id=&quot;原文網址&quot;&gt;&lt;a href=&quot;#原文網址&quot; class=&quot;headerlink&quot; title=&quot;原文網址&quot;&gt;&lt;/a&gt;原文網址&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;http://codelegance.com/semantic-method-naming/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Semantic method naming&lt;/a&gt;&lt;/p&gt;
+</content>
+    
     <summary type="html">
-    <![CDATA[<p>正確命名這件事是個艱難的編碼任務。然而，這只是因為我們給予這些任務的考慮經常不足，這篇文章主要在說怎麼為函數正確的命名。</p>]]>
+    
+      &lt;p&gt;正確命名這件事是個艱難的編碼任務。然而，這只是因為我們給予這些任務的考慮經常不足，這篇文章主要在說怎麼為函數正確的命名。&lt;/p&gt;
     
     </summary>
     
-      <category term="Clean Code" scheme="http://yuhui.im/tags/clean-code/"/>
-    
       <category term="Clean Code" scheme="http://yuhui.im/categories/clean-code/"/>
+    
+    
+      <category term="Clean Code" scheme="http://yuhui.im/tags/clean-code/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Git 常用基本設定]]></title>
+    <title>Git 常用基本設定</title>
     <link href="http://yuhui.im/2015/11/28/git-default-setting/"/>
     <id>http://yuhui.im/2015/11/28/git-default-setting/</id>
     <published>2015-11-28T05:28:37.000Z</published>
     <updated>2015-11-30T16:30:02.000Z</updated>
-    <content type="html"><![CDATA[<p>整理 Git 環境設定識別資料和別名。</p>
- <a id="more"></a>
-<h2 id="基礎設定存放位置和調用順序">基礎設定存放位置和調用順序</h2><table>
-<thead>
-<tr>
-<th>存放位置</th>
-<th>層級</th>
-<th>設定時所需參數</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>etc/gitconfig</code></td>
-<td>系統所有使用者</td>
-<td><code>--system</code></td>
-</tr>
-<tr>
-<td><code>~/.gitconfig</code></td>
-<td>當前使用者</td>
-<td><code>--global</code></td>
-</tr>
-<tr>
-<td><code>.git/config</code></td>
-<td>當前專案</td>
-<td>無</td>
-</tr>
-</tbody>
-</table>
-<p>下層設定會覆寫上層，所以當三個設定檔都有同一個選項設定時以<code>當前專案</code>的設定為最優先，效果如下：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git config --system user<span class="class">.name</span> <span class="string">"yu"</span></span><br><span class="line">git config --global user<span class="class">.name</span> <span class="string">"hui"</span></span><br><span class="line">git config user<span class="class">.name</span> <span class="string">"Yu Hui"</span></span><br><span class="line"></span><br><span class="line">git config user<span class="class">.name</span> <span class="comment">// Yu Hui</span></span><br></pre></td></tr></table></figure>
-<h2 id="設定識別資料">設定識別資料</h2><p><em>非常重要，新的開發環境別忘了先設定名稱和信箱。</em></p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user<span class="class">.name</span> <span class="string">"yuhui"</span></span><br><span class="line">git config --global user<span class="class">.email</span> <span class="string">"example@mail.com"</span></span><br></pre></td></tr></table></figure>
-<h2 id="Alias">Alias</h2><p>將常用指令設定較短的別名，減少打字和打錯字的時間。</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">git</span> config --<span class="preprocessor">global</span> <span class="preprocessor">alias</span>.[<span class="preprocessor">alias</span>] [command]</span><br><span class="line"></span><br><span class="line"><span class="label">git</span> config --<span class="preprocessor">global</span> <span class="preprocessor">alias</span>.co checkout</span><br><span class="line"><span class="label">git</span> config --<span class="preprocessor">global</span> <span class="preprocessor">alias</span>.st status</span><br><span class="line"><span class="label">git</span> config --<span class="preprocessor">global</span> <span class="preprocessor">alias</span>.<span class="keyword">br </span><span class="keyword">branch</span><br><span class="line"></span><span class="label">git</span> config --<span class="preprocessor">global</span> <span class="preprocessor">alias</span>.ci commit</span><br></pre></td></tr></table></figure>
-<h2 id="查閱_config_列表">查閱 config 列表</h2><figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git config --list</span><br><span class="line"></span><br><span class="line">user.name=yu</span><br><span class="line">user.email=example@mail.com</span><br><span class="line">user.name=hui</span><br><span class="line"><span class="keyword">alias</span>.<span class="title">co</span>=checkout</span><br><span class="line"><span class="keyword">alias</span>.<span class="title">st</span>=status</span><br><span class="line"><span class="keyword">alias</span>.<span class="title">br</span>=branch</span><br><span class="line"><span class="keyword">alias</span>.<span class="title">ci</span>=commit</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<h2 id="相關網頁">相關網頁</h2><p><a href="https://git-scm.com/book/zh-tw/v1/%E9%96%8B%E5%A7%8B-%E5%88%9D%E6%AC%A1%E8%A8%AD%E5%AE%9AGit" target="_blank" rel="external">初次設定Git</a><br><a href="https://git-scm.com/book/tr/v2/Git-Basics-Git-Aliases" target="_blank" rel="external">Git Alias</a></p>
-]]></content>
+    
+    <content type="html">&lt;p&gt;整理 Git 環境設定識別資料和別名。&lt;/p&gt;
+ &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;基礎設定存放位置和調用順序&quot;&gt;&lt;a href=&quot;#基礎設定存放位置和調用順序&quot; class=&quot;headerlink&quot; title=&quot;基礎設定存放位置和調用順序&quot;&gt;&lt;/a&gt;基礎設定存放位置和調用順序&lt;/h2&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;存放位置&lt;/th&gt;
+&lt;th&gt;層級&lt;/th&gt;
+&lt;th&gt;設定時所需參數&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;etc/gitconfig&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;系統所有使用者&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;--system&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;~/.gitconfig&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;當前使用者&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;--global&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;.git/config&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;當前專案&lt;/td&gt;
+&lt;td&gt;無&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;下層設定會覆寫上層，所以當三個設定檔都有同一個選項設定時以&lt;code&gt;當前專案&lt;/code&gt;的設定為最優先，效果如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git config --system user&lt;span class=&quot;selector-class&quot;&gt;.name&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;yu&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git config --global user&lt;span class=&quot;selector-class&quot;&gt;.name&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;hui&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git config user&lt;span class=&quot;selector-class&quot;&gt;.name&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;Yu Hui&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git config user&lt;span class=&quot;selector-class&quot;&gt;.name&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;// Yu Hui&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;設定識別資料&quot;&gt;&lt;a href=&quot;#設定識別資料&quot; class=&quot;headerlink&quot; title=&quot;設定識別資料&quot;&gt;&lt;/a&gt;設定識別資料&lt;/h2&gt;&lt;p&gt;&lt;em&gt;非常重要，新的開發環境別忘了先設定名稱和信箱。&lt;/em&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git config --global user&lt;span class=&quot;selector-class&quot;&gt;.name&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;yuhui&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git config --global user&lt;span class=&quot;selector-class&quot;&gt;.email&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;example@mail.com&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;Alias&quot;&gt;&lt;a href=&quot;#Alias&quot; class=&quot;headerlink&quot; title=&quot;Alias&quot;&gt;&lt;/a&gt;Alias&lt;/h2&gt;&lt;p&gt;將常用指令設定較短的別名，減少打字和打錯字的時間。&lt;/p&gt;
+&lt;figure class=&quot;highlight armasm&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;git&lt;/span&gt; config --&lt;span class=&quot;meta&quot;&gt;global&lt;/span&gt; &lt;span class=&quot;meta&quot;&gt;alias&lt;/span&gt;.[&lt;span class=&quot;meta&quot;&gt;alias&lt;/span&gt;] [command]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;git&lt;/span&gt; config --&lt;span class=&quot;meta&quot;&gt;global&lt;/span&gt; &lt;span class=&quot;meta&quot;&gt;alias&lt;/span&gt;.co checkout&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;git&lt;/span&gt; config --&lt;span class=&quot;meta&quot;&gt;global&lt;/span&gt; &lt;span class=&quot;meta&quot;&gt;alias&lt;/span&gt;.st status&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;git&lt;/span&gt; config --&lt;span class=&quot;meta&quot;&gt;global&lt;/span&gt; &lt;span class=&quot;meta&quot;&gt;alias&lt;/span&gt;.&lt;span class=&quot;keyword&quot;&gt;br &lt;/span&gt;&lt;span class=&quot;keyword&quot;&gt;branch&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;span class=&quot;symbol&quot;&gt;git&lt;/span&gt; config --&lt;span class=&quot;meta&quot;&gt;global&lt;/span&gt; &lt;span class=&quot;meta&quot;&gt;alias&lt;/span&gt;.ci commit&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;查閱-config-列表&quot;&gt;&lt;a href=&quot;#查閱-config-列表&quot; class=&quot;headerlink&quot; title=&quot;查閱 config 列表&quot;&gt;&lt;/a&gt;查閱 config 列表&lt;/h2&gt;&lt;figure class=&quot;highlight monkey&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git config --list&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;user.name=yu&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;user.email=example@mail.com&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;user.name=hui&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;alias&lt;/span&gt;.&lt;span class=&quot;title&quot;&gt;co&lt;/span&gt;=checkout&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;alias&lt;/span&gt;.&lt;span class=&quot;title&quot;&gt;st&lt;/span&gt;=status&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;alias&lt;/span&gt;.&lt;span class=&quot;title&quot;&gt;br&lt;/span&gt;=branch&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;alias&lt;/span&gt;.&lt;span class=&quot;title&quot;&gt;ci&lt;/span&gt;=commit&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;...&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;相關網頁&quot;&gt;&lt;a href=&quot;#相關網頁&quot; class=&quot;headerlink&quot; title=&quot;相關網頁&quot;&gt;&lt;/a&gt;相關網頁&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://git-scm.com/book/zh-tw/v1/%E9%96%8B%E5%A7%8B-%E5%88%9D%E6%AC%A1%E8%A8%AD%E5%AE%9AGit&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;初次設定Git&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://git-scm.com/book/tr/v2/Git-Basics-Git-Aliases&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Git Alias&lt;/a&gt;&lt;/p&gt;
+</content>
+    
     <summary type="html">
-    <![CDATA[<p>整理 Git 環境設定識別資料和別名。</p>]]>
+    
+      &lt;p&gt;整理 Git 環境設定識別資料和別名。&lt;/p&gt;
     
     </summary>
     
-      <category term="Git" scheme="http://yuhui.im/tags/git/"/>
-    
       <category term="Git" scheme="http://yuhui.im/categories/git/"/>
+    
+    
+      <category term="Git" scheme="http://yuhui.im/tags/git/"/>
     
   </entry>
   
   <entry>
-    <title><![CDATA[Laravel 5.1 中使用 Gulp + Elixir 進行自動化測試]]></title>
+    <title>Laravel 5.1 中使用 Gulp + Elixir 進行自動化測試</title>
     <link href="http://yuhui.im/2015/10/01/Laravel-5-1-Use-Gulp-Elixir-automated-testing/"/>
     <id>http://yuhui.im/2015/10/01/Laravel-5-1-Use-Gulp-Elixir-automated-testing/</id>
     <published>2015-10-01T13:39:16.000Z</published>
     <updated>2015-11-25T11:21:15.000Z</updated>
-    <content type="html"><![CDATA[<p>每次修改程式都要自己跑測試實在有點麻煩，所以把監聽檔案改變並且執行測試這件事交給 Gulp 吧。</p>
- <a id="more"></a>
-<h2 id="環境建立">環境建立</h2><p>需要安裝</p>
-<ul>
-<li>phpunit 相關依賴套件 </li>
-<li>node </li>
-<li>npm</li>
-<li>global 的 gulp 套件</li>
-</ul>
-<blockquote>
-<p>以下安裝方式是以 Ubuntu 為例</p>
-</blockquote>
-<h3 id="PHP_Unit_相關依賴套件安裝">PHP Unit 相關依賴套件安裝</h3><p>移到專案資料夾中，確定 vendor 中已掛入 <code>phpunit</code> ，並且可以順利執行<code>./vendor/bin/phpunit</code>，有缺少依賴套件的話就在這步驟補上吧。</p>
-<h3 id="安裝_Nodejs">安裝 Nodejs</h3><blockquote>
-<p>由於 Ubuntu 的 node 已被佔用，如果要在 Ubuntu 上安裝需要另加 nodejs 的 ppa 解決。</p>
-</blockquote>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo<span class="instruction"> add-apt-repository </span>ppa:chris-lea/node.js</span><br><span class="line">sudo apt-get install nodejs</span><br><span class="line"></span><br><span class="line">// 測試安裝成功</span><br><span class="line">nodejs -v //<span class="instruction"> or </span>node -v </span><br><span class="line"><span class="variable">v0</span>.10.37</span><br></pre></td></tr></table></figure>
-<h3 id="安裝_npm_(_nodejs_的套件管理)">安裝 npm ( nodejs 的套件管理)</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install npm</span><br><span class="line"></span><br><span class="line"><span class="comment">// 測試安裝成功</span></span><br><span class="line">npm -v </span><br><span class="line"><span class="number">1.4</span><span class="number">.28</span></span><br></pre></td></tr></table></figure>
-<h3 id="安裝_global_環境的_Gulp">安裝 global 環境的 Gulp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g gulp </span><br><span class="line"></span><br><span class="line"><span class="comment">// 測試安裝成功</span></span><br><span class="line">gulp</span><br><span class="line">[<span class="number">12</span>:<span class="number">02</span>:<span class="number">53</span>] Local gulp not found in ~/git</span><br><span class="line">[<span class="number">12</span>:<span class="number">02</span>:<span class="number">53</span>] Try running: npm install gulp</span><br></pre></td></tr></table></figure>
-<h2 id="Laravel_5-1_專案相關套件安裝">Laravel 5.1 專案相關套件安裝</h2><p>移動到 Laravel 5.1 的專案資料夾安裝 gulp 和 laravel-elxir</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> project-forder</span><br></pre></td></tr></table></figure>
-<p>確定 <code>package.json</code> 檔中有包含 <code>&quot;laravel-elixir&quot;: &quot;^3.0.0&quot;,</code> ，接下來開始安裝套件</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm <span class="keyword">install</span></span><br></pre></td></tr></table></figure>
-<p>試試寫在 <code>gulpfile.js</code> 中的預設值能不能正常運作</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Laravel 5.1 gulpfile.js 的預設值</span></span><br><span class="line"><span class="keyword">var</span> elixir = <span class="built_in">require</span>(<span class="string">'laravel-elixir'</span>);</span><br><span class="line"></span><br><span class="line">elixir(<span class="function"><span class="keyword">function</span>(<span class="params">mix</span>) </span>&#123;</span><br><span class="line">    mix.sass(<span class="string">'app.scss'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>執行 <code>gulp</code> 的設定，右上有跑出通知代表成功！</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gulp</span><br></pre></td></tr></table></figure>
-<h2 id="使用_laravel-elixir_在存檔時自動觸發_phpUnit">使用 laravel-elixir 在存檔時自動觸發 phpUnit</h2><p>打開 <code>gulpfile.js</code>，將底下的 function 改寫為</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">elixir<span class="list">(<span class="keyword">function</span><span class="list">(<span class="keyword">mix</span>)</span> &#123;</span><br><span class="line">	mix.phpUnit<span class="list">()</span><span class="comment">;</span></span><br><span class="line">&#125;)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<p>存檔後在命令列上打 <code>gulp watch</code> ，接下來試著去修改 php 或是 <code>tests</code> 中的檔案，開始自動化測試吧。</p>
-<h2 id="參考連結">參考連結</h2><p><a href="https://github.com/laravel/elixir" target="_blank" rel="external">Laravel Elixir (GitHub)</a></p>
-<p><a href="https://laracasts.com/series/whats-new-in-laravel-5/episodes/10" target="_blank" rel="external">Laracast: Laravel Elxir</a></p>
-<p><a href="https://laracasts.com/lessons/how-to-trigger-tests-on-save" target="_blank" rel="external">Laracast: Trigger test on save</a></p>
-]]></content>
+    
+    <content type="html">&lt;p&gt;每次修改程式都要自己跑測試實在有點麻煩，所以把監聽檔案改變並且執行測試這件事交給 Gulp 吧。&lt;/p&gt;
+ &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;環境建立&quot;&gt;&lt;a href=&quot;#環境建立&quot; class=&quot;headerlink&quot; title=&quot;環境建立&quot;&gt;&lt;/a&gt;環境建立&lt;/h2&gt;&lt;p&gt;需要安裝&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;phpunit 相關依賴套件 &lt;/li&gt;
+&lt;li&gt;node &lt;/li&gt;
+&lt;li&gt;npm&lt;/li&gt;
+&lt;li&gt;global 的 gulp 套件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;以下安裝方式是以 Ubuntu 為例&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;PHP-Unit-相關依賴套件安裝&quot;&gt;&lt;a href=&quot;#PHP-Unit-相關依賴套件安裝&quot; class=&quot;headerlink&quot; title=&quot;PHP Unit 相關依賴套件安裝&quot;&gt;&lt;/a&gt;PHP Unit 相關依賴套件安裝&lt;/h3&gt;&lt;p&gt;移到專案資料夾中，確定 vendor 中已掛入 &lt;code&gt;phpunit&lt;/code&gt; ，並且可以順利執行&lt;code&gt;./vendor/bin/phpunit&lt;/code&gt;，有缺少依賴套件的話就在這步驟補上吧。&lt;/p&gt;
+&lt;h3 id=&quot;安裝-Nodejs&quot;&gt;&lt;a href=&quot;#安裝-Nodejs&quot; class=&quot;headerlink&quot; title=&quot;安裝 Nodejs&quot;&gt;&lt;/a&gt;安裝 Nodejs&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;由於 Ubuntu 的 node 已被佔用，如果要在 Ubuntu 上安裝需要另加 nodejs 的 ppa 解決。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&quot;highlight smali&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo&lt;span class=&quot;built_in&quot;&gt; add-apt-repository &lt;/span&gt;ppa:chris-lea/node.js&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install nodejs&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;// 測試安裝成功&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;nodejs -v //&lt;span class=&quot;built_in&quot;&gt; or &lt;/span&gt;node -v &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;v0.10.37&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;安裝-npm-nodejs-的套件管理&quot;&gt;&lt;a href=&quot;#安裝-npm-nodejs-的套件管理&quot; class=&quot;headerlink&quot; title=&quot;安裝 npm ( nodejs 的套件管理)&quot;&gt;&lt;/a&gt;安裝 npm ( nodejs 的套件管理)&lt;/h3&gt;&lt;figure class=&quot;highlight actionscript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-&lt;span class=&quot;keyword&quot;&gt;get&lt;/span&gt; install npm&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 測試安裝成功&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;npm -v &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;1.4&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;.28&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;安裝-global-環境的-Gulp&quot;&gt;&lt;a href=&quot;#安裝-global-環境的-Gulp&quot; class=&quot;headerlink&quot; title=&quot;安裝 global 環境的 Gulp&quot;&gt;&lt;/a&gt;安裝 global 環境的 Gulp&lt;/h3&gt;&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo npm &lt;span class=&quot;keyword&quot;&gt;install&lt;/span&gt; -g gulp &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;// 測試安裝成功&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;gulp&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;02&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;53&lt;/span&gt;] &lt;span class=&quot;keyword&quot;&gt;Local&lt;/span&gt; gulp &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;found&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; ~/git&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;02&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;53&lt;/span&gt;] Try running: npm &lt;span class=&quot;keyword&quot;&gt;install&lt;/span&gt; gulp&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;Laravel-5-1-專案相關套件安裝&quot;&gt;&lt;a href=&quot;#Laravel-5-1-專案相關套件安裝&quot; class=&quot;headerlink&quot; title=&quot;Laravel 5.1 專案相關套件安裝&quot;&gt;&lt;/a&gt;Laravel 5.1 專案相關套件安裝&lt;/h2&gt;&lt;p&gt;移動到 Laravel 5.1 的專案資料夾安裝 gulp 和 laravel-elxir&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;cd&lt;/span&gt; project-forder&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;確定 &lt;code&gt;package.json&lt;/code&gt; 檔中有包含 &lt;code&gt;&amp;quot;laravel-elixir&amp;quot;: &amp;quot;^3.0.0&amp;quot;,&lt;/code&gt; ，接下來開始安裝套件&lt;/p&gt;
+&lt;figure class=&quot;highlight cmake&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo npm &lt;span class=&quot;keyword&quot;&gt;install&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;試試寫在 &lt;code&gt;gulpfile.js&lt;/code&gt; 中的預設值能不能正常運作&lt;/p&gt;
+&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// Laravel 5.1 gulpfile.js 的預設值&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; elixir = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&#39;laravel-elixir&#39;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;elixir(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;mix&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    mix.sass(&lt;span class=&quot;string&quot;&gt;&#39;app.scss&#39;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;執行 &lt;code&gt;gulp&lt;/code&gt; 的設定，右上有跑出通知代表成功！&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;gulp&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;使用-laravel-elixir-在存檔時自動觸發-phpUnit&quot;&gt;&lt;a href=&quot;#使用-laravel-elixir-在存檔時自動觸發-phpUnit&quot; class=&quot;headerlink&quot; title=&quot;使用 laravel-elixir 在存檔時自動觸發 phpUnit&quot;&gt;&lt;/a&gt;使用 laravel-elixir 在存檔時自動觸發 phpUnit&lt;/h2&gt;&lt;p&gt;打開 &lt;code&gt;gulpfile.js&lt;/code&gt;，將底下的 function 改寫為&lt;/p&gt;
+&lt;figure class=&quot;highlight lisp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;elixir(&lt;span class=&quot;name&quot;&gt;function&lt;/span&gt;(&lt;span class=&quot;name&quot;&gt;mix&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	mix.phpUnit()&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;)&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;存檔後在命令列上打 &lt;code&gt;gulp watch&lt;/code&gt; ，接下來試著去修改 php 或是 &lt;code&gt;tests&lt;/code&gt; 中的檔案，開始自動化測試吧。&lt;/p&gt;
+&lt;h2 id=&quot;參考連結&quot;&gt;&lt;a href=&quot;#參考連結&quot; class=&quot;headerlink&quot; title=&quot;參考連結&quot;&gt;&lt;/a&gt;參考連結&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/laravel/elixir&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Laravel Elixir (GitHub)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://laracasts.com/series/whats-new-in-laravel-5/episodes/10&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Laracast: Laravel Elxir&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://laracasts.com/lessons/how-to-trigger-tests-on-save&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Laracast: Trigger test on save&lt;/a&gt;&lt;/p&gt;
+</content>
+    
     <summary type="html">
-    <![CDATA[<p>每次修改程式都要自己跑測試實在有點麻煩，所以把監聽檔案改變並且執行測試這件事交給 Gulp 吧。</p>]]>
+    
+      &lt;p&gt;每次修改程式都要自己跑測試實在有點麻煩，所以把監聽檔案改變並且執行測試這件事交給 Gulp 吧。&lt;/p&gt;
     
     </summary>
-    
-      <category term="Gulp" scheme="http://yuhui.im/tags/gulp/"/>
-    
-      <category term="Laravel 5.1" scheme="http://yuhui.im/tags/laravel-5-1/"/>
-    
-      <category term="Unit Test" scheme="http://yuhui.im/tags/unit-test/"/>
     
       <category term="PHP" scheme="http://yuhui.im/categories/php/"/>
     
       <category term="Laravel" scheme="http://yuhui.im/categories/php/laravel/"/>
+    
+    
+      <category term="Laravel 5.1" scheme="http://yuhui.im/tags/laravel-5-1/"/>
+    
+      <category term="Gulp" scheme="http://yuhui.im/tags/gulp/"/>
+    
+      <category term="Unit Test" scheme="http://yuhui.im/tags/unit-test/"/>
     
   </entry>
   

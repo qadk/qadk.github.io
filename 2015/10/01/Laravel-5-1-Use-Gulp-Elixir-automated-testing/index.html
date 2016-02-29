@@ -32,7 +32,7 @@
 
 
 
-  <meta name="keywords" content="Gulp,Laravel 5.1,Unit Test," />
+  <meta name="keywords" content="Laravel 5.1,Gulp,Unit Test," />
 
 
 
@@ -242,7 +242,7 @@
       
         <span itemprop="articleBody"><p>每次修改程式都要自己跑測試實在有點麻煩，所以把監聽檔案改變並且執行測試這件事交給 Gulp 吧。</p>
  <a id="more"></a>
-<h2 id="環境建立">環境建立</h2><p>需要安裝</p>
+<h2 id="環境建立"><a href="#環境建立" class="headerlink" title="環境建立"></a>環境建立</h2><p>需要安裝</p>
 <ul>
 <li>phpunit 相關依賴套件 </li>
 <li>node </li>
@@ -252,14 +252,14 @@
 <blockquote>
 <p>以下安裝方式是以 Ubuntu 為例</p>
 </blockquote>
-<h3 id="PHP_Unit_相關依賴套件安裝">PHP Unit 相關依賴套件安裝</h3><p>移到專案資料夾中，確定 vendor 中已掛入 <code>phpunit</code> ，並且可以順利執行<code>./vendor/bin/phpunit</code>，有缺少依賴套件的話就在這步驟補上吧。</p>
-<h3 id="安裝_Nodejs">安裝 Nodejs</h3><blockquote>
+<h3 id="PHP-Unit-相關依賴套件安裝"><a href="#PHP-Unit-相關依賴套件安裝" class="headerlink" title="PHP Unit 相關依賴套件安裝"></a>PHP Unit 相關依賴套件安裝</h3><p>移到專案資料夾中，確定 vendor 中已掛入 <code>phpunit</code> ，並且可以順利執行<code>./vendor/bin/phpunit</code>，有缺少依賴套件的話就在這步驟補上吧。</p>
+<h3 id="安裝-Nodejs"><a href="#安裝-Nodejs" class="headerlink" title="安裝 Nodejs"></a>安裝 Nodejs</h3><blockquote>
 <p>由於 Ubuntu 的 node 已被佔用，如果要在 Ubuntu 上安裝需要另加 nodejs 的 ppa 解決。</p>
 </blockquote>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo<span class="instruction"> add-apt-repository </span>ppa:chris-lea/node.js</span><br><span class="line">sudo apt-get install nodejs</span><br><span class="line"></span><br><span class="line">// 測試安裝成功</span><br><span class="line">nodejs -v //<span class="instruction"> or </span>node -v </span><br><span class="line"><span class="variable">v0</span>.10.37</span><br></pre></td></tr></table></figure>
-<h3 id="安裝_npm_(_nodejs_的套件管理)">安裝 npm ( nodejs 的套件管理)</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install npm</span><br><span class="line"></span><br><span class="line"><span class="comment">// 測試安裝成功</span></span><br><span class="line">npm -v </span><br><span class="line"><span class="number">1.4</span><span class="number">.28</span></span><br></pre></td></tr></table></figure>
-<h3 id="安裝_global_環境的_Gulp">安裝 global 環境的 Gulp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g gulp </span><br><span class="line"></span><br><span class="line"><span class="comment">// 測試安裝成功</span></span><br><span class="line">gulp</span><br><span class="line">[<span class="number">12</span>:<span class="number">02</span>:<span class="number">53</span>] Local gulp not found in ~/git</span><br><span class="line">[<span class="number">12</span>:<span class="number">02</span>:<span class="number">53</span>] Try running: npm install gulp</span><br></pre></td></tr></table></figure>
-<h2 id="Laravel_5-1_專案相關套件安裝">Laravel 5.1 專案相關套件安裝</h2><p>移動到 Laravel 5.1 的專案資料夾安裝 gulp 和 laravel-elxir</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo<span class="built_in"> add-apt-repository </span>ppa:chris-lea/node.js</span><br><span class="line">sudo apt-get install nodejs</span><br><span class="line"></span><br><span class="line">// 測試安裝成功</span><br><span class="line">nodejs -v //<span class="built_in"> or </span>node -v </span><br><span class="line">v0.10.37</span><br></pre></td></tr></table></figure>
+<h3 id="安裝-npm-nodejs-的套件管理"><a href="#安裝-npm-nodejs-的套件管理" class="headerlink" title="安裝 npm ( nodejs 的套件管理)"></a>安裝 npm ( nodejs 的套件管理)</h3><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="keyword">get</span> install npm</span><br><span class="line"></span><br><span class="line"><span class="comment">// 測試安裝成功</span></span><br><span class="line">npm -v </span><br><span class="line"><span class="number">1.4</span><span class="number">.28</span></span><br></pre></td></tr></table></figure>
+<h3 id="安裝-global-環境的-Gulp"><a href="#安裝-global-環境的-Gulp" class="headerlink" title="安裝 global 環境的 Gulp"></a>安裝 global 環境的 Gulp</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo npm <span class="keyword">install</span> -g gulp </span><br><span class="line"></span><br><span class="line">// 測試安裝成功</span><br><span class="line">gulp</span><br><span class="line">[<span class="number">12</span>:<span class="number">02</span>:<span class="number">53</span>] <span class="keyword">Local</span> gulp <span class="keyword">not</span> <span class="keyword">found</span> <span class="keyword">in</span> ~/git</span><br><span class="line">[<span class="number">12</span>:<span class="number">02</span>:<span class="number">53</span>] Try running: npm <span class="keyword">install</span> gulp</span><br></pre></td></tr></table></figure>
+<h2 id="Laravel-5-1-專案相關套件安裝"><a href="#Laravel-5-1-專案相關套件安裝" class="headerlink" title="Laravel 5.1 專案相關套件安裝"></a>Laravel 5.1 專案相關套件安裝</h2><p>移動到 Laravel 5.1 的專案資料夾安裝 gulp 和 laravel-elxir</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> project-forder</span><br></pre></td></tr></table></figure>
 <p>確定 <code>package.json</code> 檔中有包含 <code>&quot;laravel-elixir&quot;: &quot;^3.0.0&quot;,</code> ，接下來開始安裝套件</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm <span class="keyword">install</span></span><br></pre></td></tr></table></figure>
@@ -267,10 +267,10 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Laravel 5.1 gulpfile.js 的預設值</span></span><br><span class="line"><span class="keyword">var</span> elixir = <span class="built_in">require</span>(<span class="string">'laravel-elixir'</span>);</span><br><span class="line"></span><br><span class="line">elixir(<span class="function"><span class="keyword">function</span>(<span class="params">mix</span>) </span>&#123;</span><br><span class="line">    mix.sass(<span class="string">'app.scss'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>執行 <code>gulp</code> 的設定，右上有跑出通知代表成功！</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gulp</span><br></pre></td></tr></table></figure>
-<h2 id="使用_laravel-elixir_在存檔時自動觸發_phpUnit">使用 laravel-elixir 在存檔時自動觸發 phpUnit</h2><p>打開 <code>gulpfile.js</code>，將底下的 function 改寫為</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">elixir<span class="list">(<span class="keyword">function</span><span class="list">(<span class="keyword">mix</span>)</span> &#123;</span><br><span class="line">	mix.phpUnit<span class="list">()</span><span class="comment">;</span></span><br><span class="line">&#125;)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用-laravel-elixir-在存檔時自動觸發-phpUnit"><a href="#使用-laravel-elixir-在存檔時自動觸發-phpUnit" class="headerlink" title="使用 laravel-elixir 在存檔時自動觸發 phpUnit"></a>使用 laravel-elixir 在存檔時自動觸發 phpUnit</h2><p>打開 <code>gulpfile.js</code>，將底下的 function 改寫為</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">elixir(<span class="name">function</span>(<span class="name">mix</span>) &#123;</span><br><span class="line">	mix.phpUnit()<span class="comment">;</span></span><br><span class="line">&#125;)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 <p>存檔後在命令列上打 <code>gulp watch</code> ，接下來試著去修改 php 或是 <code>tests</code> 中的檔案，開始自動化測試吧。</p>
-<h2 id="參考連結">參考連結</h2><p><a href="https://github.com/laravel/elixir" target="_blank" rel="external">Laravel Elixir (GitHub)</a></p>
+<h2 id="參考連結"><a href="#參考連結" class="headerlink" title="參考連結"></a>參考連結</h2><p><a href="https://github.com/laravel/elixir" target="_blank" rel="external">Laravel Elixir (GitHub)</a></p>
 <p><a href="https://laracasts.com/series/whats-new-in-laravel-5/episodes/10" target="_blank" rel="external">Laracast: Laravel Elxir</a></p>
 <p><a href="https://laracasts.com/lessons/how-to-trigger-tests-on-save" target="_blank" rel="external">Laracast: Trigger test on save</a></p>
 </span>
@@ -281,9 +281,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/gulp/" rel="tag">#Gulp</a>
-          
             <a href="/tags/laravel-5-1/" rel="tag">#Laravel 5.1</a>
+          
+            <a href="/tags/gulp/" rel="tag">#Gulp</a>
           
             <a href="/tags/unit-test/" rel="tag">#Unit Test</a>
           
@@ -364,7 +364,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -378,7 +378,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -413,7 +413,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#環境建立"><span class="nav-number">1.</span> <span class="nav-text">環境建立</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP_Unit_相關依賴套件安裝"><span class="nav-number">1.1.</span> <span class="nav-text">PHP Unit 相關依賴套件安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝_Nodejs"><span class="nav-number">1.2.</span> <span class="nav-text">安裝 Nodejs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝_npm_(_nodejs_的套件管理)"><span class="nav-number">1.3.</span> <span class="nav-text">安裝 npm ( nodejs 的套件管理)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝_global_環境的_Gulp"><span class="nav-number">1.4.</span> <span class="nav-text">安裝 global 環境的 Gulp</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Laravel_5-1_專案相關套件安裝"><span class="nav-number">2.</span> <span class="nav-text">Laravel 5.1 專案相關套件安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用_laravel-elixir_在存檔時自動觸發_phpUnit"><span class="nav-number">3.</span> <span class="nav-text">使用 laravel-elixir 在存檔時自動觸發 phpUnit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考連結"><span class="nav-number">4.</span> <span class="nav-text">參考連結</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#環境建立"><span class="nav-number">1.</span> <span class="nav-text">環境建立</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP-Unit-相關依賴套件安裝"><span class="nav-number">1.1.</span> <span class="nav-text">PHP Unit 相關依賴套件安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-Nodejs"><span class="nav-number">1.2.</span> <span class="nav-text">安裝 Nodejs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-npm-nodejs-的套件管理"><span class="nav-number">1.3.</span> <span class="nav-text">安裝 npm ( nodejs 的套件管理)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-global-環境的-Gulp"><span class="nav-number">1.4.</span> <span class="nav-text">安裝 global 環境的 Gulp</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Laravel-5-1-專案相關套件安裝"><span class="nav-number">2.</span> <span class="nav-text">Laravel 5.1 專案相關套件安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-laravel-elixir-在存檔時自動觸發-phpUnit"><span class="nav-number">3.</span> <span class="nav-text">使用 laravel-elixir 在存檔時自動觸發 phpUnit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考連結"><span class="nav-number">4.</span> <span class="nav-text">參考連結</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

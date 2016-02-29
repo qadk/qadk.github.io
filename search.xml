@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+    
+    <entry>
+      <title><![CDATA[開發你的第一個 Composer 套件]]></title>
+      <url>http://yuhui.im/2016/02/29/create-your-first-composer-package/</url>
+      <content type="html"><![CDATA[<p>有些功能可以獨立於專案外運作且多個專案都會需要用到它時，手動複製 code 然後貼過去已經不是最好的辦法了，還是有新的想法可以造福人群，來試試自己做個 package 吧。</p>
+<p>如果是私有的套件不想上傳公開平台 ( <a href="https://github.com" target="_blank" rel="external">GitHub</a> / <a href="https://packagist.org/" target="_blank" rel="external">Packagist</a> )，這裡也會帶到<a href="#私人套件-Bitbucket">私有項目</a>的掛載辦法。</p>
+<a id="more"></a>
+<h2 id="建立套件資料夾結構"><a href="#建立套件資料夾結構" class="headerlink" title="建立套件資料夾結構"></a>建立套件資料夾結構</h2><p>建議使用 <a href="http://www.php-fig.org/psr/psr-4/" target="_blank" rel="external">psr-4</a> 的規範來建立資料夾結構：<br><code>package_name / src / say.php</code><br>在檔案中寫入<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">Qadk</span>\<span class="title">HelloWorld</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Say</span> </span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">message</span><span class="params">()</span> </span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"Hello World"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>還是有不少套件使用 <a href="http://www.php-fig.org/psr/psr-0/" target="_blank" rel="external">psr-0</a> 的規範，同樣能運作，但已過時不推薦使用。</p>
+</blockquote>
+<h2 id="建立套件的-composer-json"><a href="#建立套件的-composer-json" class="headerlink" title="建立套件的 composer.json"></a>建立套件的 composer.json</h2><p>既然是做 composer 套件，當然有一些基本的設定要跟 composer 宣告套件要做些什麼、有哪些使用限制、作者是誰…等資訊，所以第一步利用 composer 提供的設定檔建立工具來完成基本設定工作。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="built_in">where</span>/your/package/path</span><br><span class="line"></span><br><span class="line">composer init</span><br></pre></td></tr></table></figure></p>
+<p>一一回答相關問題(後面都可以在設定檔中修改)：<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Package name (&lt;vendor&gt;/&lt;name&gt;) [root/package]: qadk/package</span><br><span class="line"><span class="comment"># 套件的名稱，如果不知道 vendor 要放什麼，就放上 github 帳號吧 </span></span><br><span class="line">Description []: test package</span><br><span class="line"><span class="comment"># 一些簡單的說明</span></span><br><span class="line">Author []:</span><br><span class="line"><span class="comment"># 作者的聯絡資訊</span></span><br><span class="line">Minimum Stability []: dev</span><br><span class="line"><span class="comment"># 最低的可用版本 </span></span><br><span class="line">Package Type []:</span><br><span class="line"><span class="comment"># 簡單的分類，可能是 wordpress-plugin, laravel-bundle 之類</span></span><br><span class="line">License []:</span><br><span class="line"><span class="comment"># 版權聲明</span></span><br><span class="line">Define your dependencies.</span><br><span class="line"><span class="comment"># 設定套件需要依賴的其他套件，輸入 yes 的話會以問答方式協助找到想掛入的套件，我比較喜歡之後在設定檔中直接修改設定，所以通常都直接略過</span></span><br><span class="line">Would you like <span class="keyword">to</span> define your dependencies (<span class="built_in">require</span>) interactively [<span class="literal">yes</span>]? <span class="literal">no</span></span><br><span class="line">Would you like <span class="keyword">to</span> define your dev dependencies (<span class="built_in">require</span>-dev) interactively [<span class="literal">yes</span>]? <span class="literal">no</span></span><br></pre></td></tr></table></figure></p>
+<p>回答完這些問題後，就可以得到一隻基礎的 <code>composer.json</code> 檔：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"qadk/package"</span>,</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"test package"</span>,</span><br><span class="line">    <span class="attr">"authors"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"hui"</span>,</span><br><span class="line">            <span class="attr">"email"</span>: <span class="string">"qadk211062@gmail.com"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"minimum-stability"</span>: <span class="string">"dev"</span>,</span><br><span class="line">    <span class="attr">"require"</span>: &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>設定 composer 如何索引套件後，這個簡單的套件已經可以掛載運作啦。<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"autoload"</span>: &#123;</span><br><span class="line">	<span class="string">"psr-4"</span>: &#123;</span><br><span class="line">		<span class="string">"Qadk\\HelloWorld\\"</span>: <span class="string">"src/"</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
+<h2 id="簡易測試"><a href="#簡易測試" class="headerlink" title="簡易測試"></a>簡易測試</h2><h3 id="試試-composer-能否順利對應到"><a href="#試試-composer-能否順利對應到" class="headerlink" title="試試 composer 能否順利對應到"></a>試試 composer 能否順利對應到</h3><ul>
+<li>開啟 command line 移到資料夾中輸入 <code>composer install</code> 讓 composer 載入相關的依賴套件和產生自動載入檔</li>
+<li><p>建立測試檔案在套件的根目錄中，像這樣：<code>package_name / test.php</code> ，檔案中記得把剛剛產生的自動載入檔讀進來：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require_once</span> <span class="keyword">__DIR__</span> . <span class="string">'/vendor/autoload.php'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Qadk</span>\<span class="title">HelloWorld</span>\<span class="title">Say</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> Say::message();</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>執行<code>php test.php</code> 順利印出 <code>Hello World</code> 的話就完成了。</p>
+</li>
+</ul>
+<h3 id="也可以將套件掛載入專案中測試-這裡以-Laravel-專案為例"><a href="#也可以將套件掛載入專案中測試-這裡以-Laravel-專案為例" class="headerlink" title="也可以將套件掛載入專案中測試(這裡以 Laravel 專案為例)"></a>也可以將套件掛載入專案中測試(這裡以 Laravel 專案為例)</h3><p>修改專案的 <code>composer.json</code> 來將我們的套件掛進專案中吧，由於我們的套件沒有上傳到 packagist ，所以另外要加入套件的來源庫(本機路徑)，設定方式如下：<br><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"repositories"</span>: [</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="string">"type"</span>: <span class="string">"path"</span>,</span><br><span class="line">		<span class="string">"url"</span>: <span class="string">"../helloworld"</span></span><br><span class="line">	&#125;</span><br><span class="line">],</span><br><span class="line"></span><br><span class="line"><span class="string">"require"</span>: &#123;</span><br><span class="line">	...</span><br><span class="line">	<span class="string">"qadk/helloworld"</span>: <span class="string">"@dev"</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
+<p>設定完以後別忘了在專案根目錄中執行 <code>composer update</code> ，接著就可以在專案中自由使用套件了，這裡示範在 <code>routes.php</code> 裡使用剛剛做的套件。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Route::get(<span class="string">'hi'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> Qadk\HelloWorld\Say::message();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>使用檔案路徑的好處是，檔案是連動的，修改完可以馬上在專案中測試，不需要重新 <code>composer update</code> 。</p>
+</blockquote>
+<h2 id="發佈"><a href="#發佈" class="headerlink" title="發佈"></a>發佈</h2><h3 id="公開套件-GitHub-Packagist"><a href="#公開套件-GitHub-Packagist" class="headerlink" title="公開套件 ( GitHub + Packagist )"></a>公開套件 ( GitHub + Packagist )</h3><p>現在我們需要把套件上傳到 GitHub 上，記得先建立一個公開的 repo ， <code>username/helloworld</code> ，接著在專案根目錄中執行：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git init </span><br><span class="line">git add . </span><br><span class="line">git commit -m <span class="string">"First commit"</span> </span><br><span class="line">git remote add origin git@github<span class="selector-class">.com</span>:qadk/helloworld<span class="selector-class">.git</span> </span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure></p>
+<p>成功上傳後，我們就可以到 Packagist 上註冊我們的套件了：</p>
+<ul>
+<li>登入 Packagist</li>
+<li>右上角 Submit</li>
+<li>輸入 <code>git://github.com/qadk/helloworld</code></li>
+<li>確認無誤後按下 Submit 就成功了</li>
+</ul>
+<h3 id="私人套件-Bitbucket"><a href="#私人套件-Bitbucket" class="headerlink" title="私人套件 ( Bitbucket )"></a>私人套件 ( Bitbucket )</h3><p>前面的上傳步驟與<a href="#公開套件-GitHub-Packagist">公開套件</a> 相同，差別只在於改傳到 Bitbucket 中，但後面的掛入專案因為是私有的資源庫，所以我們在掛入專案時必需在專案的 <code>composer.json</code> 中另外設定：<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"repositories"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"vcs"</span>,</span><br><span class="line">        <span class="string">"url"</span>: <span class="string">"git@bitbucket.org:qadk/helloworld.git"</span></span><br><span class="line">    &#125;</span><br><span class="line">],</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>這裡的 <code>url</code> 可以選擇使用 </p>
+<ul>
+<li><code>https</code> : <code>https://qadk@bitbucket.org/qadk/helloworld.git</code> ，在執行 <code>composer update</code> 時會需要輸入有權限讀取這個 repo 的帳號和密碼</li>
+<li><code>ssh</code> : <code>git@bitbucket.org:qadk/helloworld.git</code> 需要另外設置 ssh 相關的 key 。(可參考這裡 <a href="https://confluence.atlassian.com/bitbucket/set-up-ssh-for-git-728138079.html" target="_blank" rel="external">Set up SSH for Git</a> )</li>
+</ul>
+</blockquote>
+<h3 id="設定版本號"><a href="#設定版本號" class="headerlink" title="設定版本號"></a>設定版本號</h3><p>composer 的版本號，吃的是 Git 的 tag ，所以先來把剛剛的 commit 加上 tag 並上傳吧。<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">tag</span> <span class="title">v1</span>.<span class="number">0.0</span></span><br><span class="line">git push origin --tags</span><br></pre></td></tr></table></figure></p>
+<p>到 Packagist 的套件頁上按 <code>Update</code> 後就可以在掛載套件時選擇已經設定好的版本號了。EX: <code>&quot;qadk/helloworld&quot;: &quot;1.0.0&quot;</code></p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p><a href="https://getcomposer.org/doc/05-repositories.md#loading-a-package-from-a-vcs-repository" target="_blank" rel="external">Composer Repositories</a><br><a href="https://igor.io/2013/02/07/composer-stability-flags.html" target="_blank" rel="external">Composer Stability Flags</a><br><a href="https://getcomposer.org/doc/04-schema.md#version" target="_blank" rel="external">Composer Version</a><br><a href="https://git-scm.com/book/zh-tw/v1/Git-%E5%9F%BA%E7%A4%8E-%E6%A8%99%E7%B1%A4" target="_blank" rel="external">Git 標籤</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[建立和管理各專案獨立的 Laravel Homestead]]></title>
+      <url>http://yuhui.im/2016/01/10/installation-and-management-of-the-project-independent-of-homestead/</url>
+      <content type="html"><![CDATA[<p>laravel/homestead 版本已經來到 0.4.0 ，其中最大的差異大概是 php 版本來到了 7.0。當新專案想用 7.0 來開發，但手邊需要維護的專案還維持在 5.6 時，我們可以使用專案獨立的 homestead 來建造不同的環境。</p>
+<a id="more"></a>
+<h2 id="使用-laravel-homestead-建立相關設定檔"><a href="#使用-laravel-homestead-建立相關設定檔" class="headerlink" title="使用 laravel/homestead 建立相關設定檔"></a>使用 laravel/homestead 建立相關設定檔</h2><h3 id="安裝-laravel-homestead"><a href="#安裝-laravel-homestead" class="headerlink" title="安裝 laravel/homestead"></a>安裝 laravel/homestead</h3><p>Laravel 有提供一份完整的設定檔和建立的指令，我們只需要將它掛進來就能快速的完成相關設定。</p>
+<p>利用 composer 將設定包掛載進來 <code>composer require laravel/homestead</code> 。</p>
+<h3 id="配置相關設定檔"><a href="#配置相關設定檔" class="headerlink" title="配置相關設定檔"></a>配置相關設定檔</h3><p>使用<code>php artisan homestead:make</code> 建立設定檔，會在專案根目錄中建立兩個檔案： <code>Homestead.yaml</code> 、 <code>Vagrantfile</code> 並且將當前資料夾的同步和站點對應都設定好，檢查一下設定檔沒有問題的話，就可以啟動新環境了。</p>
+<blockquote>
+<p>如果有同時啟動兩個以上 Homestead 的需求，記得將 <code>Homestead.yaml</code> 中的 <code>ip</code> 設定修改一下避免衝突。</p>
+</blockquote>
+<h4 id="如果想要使用指定版本的-Box"><a href="#如果想要使用指定版本的-Box" class="headerlink" title="如果想要使用指定版本的 Box"></a>如果想要使用指定版本的 Box</h4><p>在 <code>Homestead.yaml</code> 中加入 <code>Version: 0.2.7</code> 即可使用指定版本。</p>
+<p>加入後大概會長這樣：<br><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">ip:</span> <span class="string">"192.168.10.11"</span></span><br><span class="line"><span class="symbol">memory:</span> <span class="number">2048</span></span><br><span class="line"><span class="symbol">cpus:</span> <span class="number">1</span></span><br><span class="line"><span class="symbol">hostname:</span> test</span><br><span class="line"><span class="symbol">name:</span> test</span><br><span class="line"><span class="symbol">provider:</span> virtualbox</span><br><span class="line"><span class="symbol">version:</span> <span class="number">0.3</span><span class="number">.3</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="啟動新環境並連線"><a href="#啟動新環境並連線" class="headerlink" title="啟動新環境並連線"></a>啟動新環境並連線</h3><p>設定檔調整完畢後就可以在專案的根目錄輸入 <code>vagrant up</code> 來啟動新環境了，如果指定的版本號之前並沒有載好的話會在這步驟時自動下載，虛擬機開完後輸入 <code>vagrant ssh</code> 就能連入虛擬機。（預設密碼：<code>vagrant</code>）</p>
+<blockquote>
+<p>要對這台虛擬機下指令都需要在 <code>Vagrantfile</code> 同層的位置，也就是專案的根目錄裡，除非有另外設置<a href="https://laravel.tw/docs/5.2/homestead#accessing-homestead-globally" target="_blank" rel="external">全域存取 Homestead</a></p>
+</blockquote>
+<h2 id="一些-Box-管理指令"><a href="#一些-Box-管理指令" class="headerlink" title="一些 Box 管理指令"></a>一些 Box 管理指令</h2><h3 id="新增指定版本"><a href="#新增指定版本" class="headerlink" title="新增指定版本"></a>新增指定版本</h3><p><code>vagrant box add laravel/homestead --box-version 0.3.3</code></p>
+<h3 id="刪除指定版本"><a href="#刪除指定版本" class="headerlink" title="刪除指定版本"></a>刪除指定版本</h3><p><code>vagrant box remove laravel/homestead --box-version 0.3.3</code></p>
+<h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><p><code>vagrant box update</code></p>
+<blockquote>
+<p>注意：這裡的更新並不會自動刪除/重新建立環境，而是下載新的 Box ，如果想要更換 Box 版本，請刪除後再用新的 Box 重新建立。</p>
+</blockquote>
+<h2 id="Laravel-Homestead-版本差異簡單整理"><a href="#Laravel-Homestead-版本差異簡單整理" class="headerlink" title="Laravel Homestead 版本差異簡單整理"></a>Laravel Homestead 版本差異簡單整理</h2><blockquote>
+<p>不負責聲明：這些版本號於 2016/01/06 測試安裝時整理，實際安裝時可能會有版本落差</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Box</th>
+<th>Ubuntu</th>
+<th>PHP</th>
+<th>HHVM</th>
+<th>Nginx</th>
+<th>MySQL</th>
+<th>Postgres</th>
+<th>Node</th>
+<th>Redis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.2.5</td>
+<td>14.10</td>
+<td>5.6.6</td>
+<td>3.5.1</td>
+<td>1.6.2</td>
+<td>5.6.19</td>
+<td>9.4.1</td>
+<td>0.10.33</td>
+<td>2.8.19</td>
+</tr>
+<tr>
+<td>0.2.7</td>
+<td>14.04.2</td>
+<td>5.6.10</td>
+<td>?</td>
+<td>1.8.0</td>
+<td>5.6.19</td>
+<td>9.4.4</td>
+<td>0.10.37</td>
+<td>3.0.2</td>
+</tr>
+<tr>
+<td>0.3.3</td>
+<td>14.04.1</td>
+<td>5.6.15</td>
+<td>3.10.1</td>
+<td>1.8.0</td>
+<td>5.7.9</td>
+<td>9.4.5</td>
+<td>5.0.0</td>
+<td>3.0.5</td>
+</tr>
+<tr>
+<td>0.4.0</td>
+<td>14.04.3</td>
+<td>7.0.1</td>
+<td>3.11.0</td>
+<td>1.9.7</td>
+<td>5.7.10</td>
+<td>9.4.5</td>
+<td>5.3.0</td>
+<td>3.0.6</td>
+</tr>
+</tbody>
+</table>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p><a href="https://laravel.tw/docs/5.2/homestead#per-project-installation" target="_blank" rel="external">Laravel - 根據專案分別安裝</a><br><a href="https://docs.vagrantup.com/v2/boxes/versioning.html" target="_blank" rel="external">Vagrant - Box Versioning</a><br><a href="https://github.com/laravel/homestead" target="_blank" rel="external">GitHub - Laravel/Homestead</a><br><a href="https://atlas.hashicorp.com/laravel/boxes/homestead" target="_blank" rel="external">Atlas - laravel/homestead - box versions</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[語義化函數命名]]></title>
+      <url>http://yuhui.im/2015/12/26/semantic-method-naming/</url>
+      <content type="html"><![CDATA[<p>正確命名這件事是個艱難的編碼任務。然而，這只是因為我們給予這些任務的考慮經常不足，這篇文章主要在說怎麼為函數正確的命名。</p>
+<a id="more"></a>
+<p>雖然我們專注於命名，但其實文件化和命名可以協助彼此更好。一旦我們習慣為每個函數寫作文檔說明這個函數到底在幹嘛，這會幫助我們正確命名自己的函數。如果文件很棒，那麼通常命名只需要從文檔中選擇正確的字就好。我們可以使用這個技巧檢驗函數名稱和文件是否意見一致，如果他們在表達不同事情的話，一定有其中一方是錯誤的。</p>
+<p>來建立我們最初也最重要的規則：所有的函數都是在做某件事，所以它們的名字需要從<strong>動詞</strong>開始。接下來我們可以看如何選擇最好的動詞來傳達我們函數到底在幹嘛。</p>
+<h2 id="減少-Get"><a href="#減少-Get" class="headerlink" title="減少 Get"></a>減少 Get</h2><p>我們編寫的許多函數大都會回傳一個值，選擇 <code>get</code> 做為大多數函數的動詞是一個常見的錯誤。<code>Get</code> 使用在去訪問或執行簡單的操作是很好的，像是取出一個指針，但沒有傳達足夠多的資訊跟調用者說明這個方法的複雜性。</p>
+<p>思考一個用來將資料從資料庫中取回的函數。它需要連結遠端的電腦，從眾多來源中搜尋資料，執行整合和排序。我們可以稱呼這個函數為 <code>getData()</code> 但這個動詞和其他單純從記憶體中取回一個值的函數沒有任何區別。如果叫它 <code>fetchData()</code> 我們的意思是為了取回資料需要做更多的事情。</p>
+<p>作為一項規則， <code>get</code> 只能用在常量時間複雜度的函數上；其他複雜度要選擇能更好描述的動詞。例如，如果我們寫了一個用來計算數學算式並回傳的函數，最好的動詞就是 <code>calculate</code> 。</p>
+<p>試試描述以下的程式碼讓它符合它所做的。<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> getItem($match) &#123;  </span><br><span class="line">    foreach ($this-&gt;items as $item) &#123;</span><br><span class="line">        if ($item === $match) &#123;</span><br><span class="line">            return $item;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我們可以說這個函數之所以出現是為了搜尋集合以找到一個符合指定參數的值。從這段描述中我們可以直接取出一個比 <code>get</code> 更好的動詞；在這個例子中不管是 <code>search</code> 或是 <code>find</code> 都會比 <code>get</code> 更能傳達它的複雜度給調用者，所以我們應該重新命名這個函數為 <code>findItem</code> 。</p>
+<h2 id="不要使用-do"><a href="#不要使用-do" class="headerlink" title="不要使用 do"></a>不要使用 <em>do</em></h2><p>由於每個方法都是在<em>做</em>某件事，選擇 <code>do</code> 來當動詞並沒有傳達關於這個方法在到底在做什麼的任何額外資訊。 <code>Do</code> 再加上 <code>handle</code> 、 <code>perform</code> 、 <code>return</code> 、 <code>compute</code> 和其他同義詞是幾種常見且應該避免的動詞。</p>
+<p>某些動詞，像是 <code>call</code> 、 <code>execute</code> 、 <code>run</code> 、 <code>prepare</code>，則在可用的邊緣。使用它們不總是錯誤的，但如果我們發現自己想使用它們，先暫停一下，考慮看看是否有更好描述這個方法在做什麼的動詞。</p>
+<h2 id="回傳類型為布林值"><a href="#回傳類型為布林值" class="headerlink" title="回傳類型為布林值"></a>回傳類型為布林值</h2><p>當方法回傳 <code>true</code> 或 <code>false</code> 時以 <code>is</code> 或 <code>are</code> 作為開頭（取決於是單數或複數）。這些方法提出問題像： <code>Button::isEnabled()</code> 、 <code>File::isLocked()</code> 或是 <code>Inputs::areValid()</code> 。</p>
+<p>在 Ruby 中發現另一種慣例是通過附加一個問號而非前綴動詞來定義問題。以前面例子來說那些方法將分別被命名為 <code>enabled?</code> 、<code>locked?</code> 或 <code>valid?</code> 。如果你使用語言的語法支持，你不妨使用這種約定。</p>
+<h2 id="目標推理"><a href="#目標推理" class="headerlink" title="目標推理"></a>目標推理</h2><p>函數( funcion )和方法( method )之間有細微的差別。方法指的是一個函數運行在某個對象底下，如我們定義的類別( class )。我們說，該方法綁定在某個類或對象，因為當它執行時可以存取該對象中的數據。</p>
+<p>有時僅需要一個動詞就足以推斷綁定於某個對象的方法在做什麼。例如，一個方法用來儲存訊息我們通常會叫他 <code>saveMessage</code> 。這個方法包括一個指定操作的目標 ( message )。然而，當這個目標和此方法被綁定的對象名稱一樣時，我們可以省略它，只需要將我們的方法命名為 <code>save</code> 。這個主題將從綁定的對象上推斷出來，而且更加直觀像是 <code>$message-&gt;save()</code> 而非 <code>$message-&gt;saveMessage()</code> 。</p>
+<h2 id="不要描述參數"><a href="#不要描述參數" class="headerlink" title="不要描述參數"></a>不要描述參數</h2><p>一個方法的簽名包括方法名稱和需要的參數。當使用一個方法時，我們需要同時獲得這兩者，所以這只是在名稱上重複描述所需要的參數。當一個方法簽名為 <code>findUserByUserIdAndToken($userId, $token)</code> 時，他可以被簡化為 <code>findUser($userId, $token)</code> 。</p>
+<p>在某些支持方法重載的語言，如 C++ ， C# 和 Java 裡，我們能夠始終遵循這一規則。然而某些最流行的腳本語言如 JavaScrip ， PHP ， Python 和 Ruby 並不支持方法重載，這代表我們不能擁用兩個同名但需要不同參數的方法。在這種情況下，打破這個規則用來區分使用不同參數的方法可能是必要的。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>我們了解到一些語義規則，可以應用到我們的函數和方法，以幫助決定正確的名稱。最重要的是，所有的方法名稱必需以動詞開始。如果我們這樣描述我們的方法做些什麼，並注意不要使用一些應該避免的單字，我們應該能夠選擇最合適的動詞來開始我們的方法名。</p>
+<p>有些人認為文件比程式碼更重要。如果程式碼錯了但沒有文件時，會因為我們不知道它想要做些什麼或為什麼這麼做而導致很難修復。當一個系統明確地描述時，我們便可以做正確的決策去修復它。正確命名我們的方法只是擁有好文件的第一步，更進一步我們應該考慮文件化每一個類和方法，反過來說，這也幫助我們命名我們的方法。</p>
+<h2 id="原文網址"><a href="#原文網址" class="headerlink" title="原文網址"></a>原文網址</h2><p><a href="http://codelegance.com/semantic-method-naming/" target="_blank" rel="external">Semantic method naming</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Git 常用基本設定]]></title>
+      <url>http://yuhui.im/2015/11/28/git-default-setting/</url>
+      <content type="html"><![CDATA[<p>整理 Git 環境設定識別資料和別名。</p>
+ <a id="more"></a>
+<h2 id="基礎設定存放位置和調用順序"><a href="#基礎設定存放位置和調用順序" class="headerlink" title="基礎設定存放位置和調用順序"></a>基礎設定存放位置和調用順序</h2><table>
+<thead>
+<tr>
+<th>存放位置</th>
+<th>層級</th>
+<th>設定時所需參數</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>etc/gitconfig</code></td>
+<td>系統所有使用者</td>
+<td><code>--system</code></td>
+</tr>
+<tr>
+<td><code>~/.gitconfig</code></td>
+<td>當前使用者</td>
+<td><code>--global</code></td>
+</tr>
+<tr>
+<td><code>.git/config</code></td>
+<td>當前專案</td>
+<td>無</td>
+</tr>
+</tbody>
+</table>
+<p>下層設定會覆寫上層，所以當三個設定檔都有同一個選項設定時以<code>當前專案</code>的設定為最優先，效果如下：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git config --system user<span class="selector-class">.name</span> <span class="string">"yu"</span></span><br><span class="line">git config --global user<span class="selector-class">.name</span> <span class="string">"hui"</span></span><br><span class="line">git config user<span class="selector-class">.name</span> <span class="string">"Yu Hui"</span></span><br><span class="line"></span><br><span class="line">git config user<span class="selector-class">.name</span> <span class="comment">// Yu Hui</span></span><br></pre></td></tr></table></figure>
+<h2 id="設定識別資料"><a href="#設定識別資料" class="headerlink" title="設定識別資料"></a>設定識別資料</h2><p><em>非常重要，新的開發環境別忘了先設定名稱和信箱。</em></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user<span class="selector-class">.name</span> <span class="string">"yuhui"</span></span><br><span class="line">git config --global user<span class="selector-class">.email</span> <span class="string">"example@mail.com"</span></span><br></pre></td></tr></table></figure>
+<h2 id="Alias"><a href="#Alias" class="headerlink" title="Alias"></a>Alias</h2><p>將常用指令設定較短的別名，減少打字和打錯字的時間。</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">git</span> config --<span class="meta">global</span> <span class="meta">alias</span>.[<span class="meta">alias</span>] [command]</span><br><span class="line"></span><br><span class="line"><span class="symbol">git</span> config --<span class="meta">global</span> <span class="meta">alias</span>.co checkout</span><br><span class="line"><span class="symbol">git</span> config --<span class="meta">global</span> <span class="meta">alias</span>.st status</span><br><span class="line"><span class="symbol">git</span> config --<span class="meta">global</span> <span class="meta">alias</span>.<span class="keyword">br </span><span class="keyword">branch</span><br><span class="line"></span><span class="symbol">git</span> config --<span class="meta">global</span> <span class="meta">alias</span>.ci commit</span><br></pre></td></tr></table></figure>
+<h2 id="查閱-config-列表"><a href="#查閱-config-列表" class="headerlink" title="查閱 config 列表"></a>查閱 config 列表</h2><figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git config --list</span><br><span class="line"></span><br><span class="line">user.name=yu</span><br><span class="line">user.email=example@mail.com</span><br><span class="line">user.name=hui</span><br><span class="line"><span class="keyword">alias</span>.<span class="title">co</span>=checkout</span><br><span class="line"><span class="keyword">alias</span>.<span class="title">st</span>=status</span><br><span class="line"><span class="keyword">alias</span>.<span class="title">br</span>=branch</span><br><span class="line"><span class="keyword">alias</span>.<span class="title">ci</span>=commit</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h2 id="相關網頁"><a href="#相關網頁" class="headerlink" title="相關網頁"></a>相關網頁</h2><p><a href="https://git-scm.com/book/zh-tw/v1/%E9%96%8B%E5%A7%8B-%E5%88%9D%E6%AC%A1%E8%A8%AD%E5%AE%9AGit" target="_blank" rel="external">初次設定Git</a><br><a href="https://git-scm.com/book/tr/v2/Git-Basics-Git-Aliases" target="_blank" rel="external">Git Alias</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Laravel 5.1 中使用 Gulp + Elixir 進行自動化測試]]></title>
+      <url>http://yuhui.im/2015/10/01/Laravel-5-1-Use-Gulp-Elixir-automated-testing/</url>
+      <content type="html"><![CDATA[<p>每次修改程式都要自己跑測試實在有點麻煩，所以把監聽檔案改變並且執行測試這件事交給 Gulp 吧。</p>
+ <a id="more"></a>
+<h2 id="環境建立"><a href="#環境建立" class="headerlink" title="環境建立"></a>環境建立</h2><p>需要安裝</p>
+<ul>
+<li>phpunit 相關依賴套件 </li>
+<li>node </li>
+<li>npm</li>
+<li>global 的 gulp 套件</li>
+</ul>
+<blockquote>
+<p>以下安裝方式是以 Ubuntu 為例</p>
+</blockquote>
+<h3 id="PHP-Unit-相關依賴套件安裝"><a href="#PHP-Unit-相關依賴套件安裝" class="headerlink" title="PHP Unit 相關依賴套件安裝"></a>PHP Unit 相關依賴套件安裝</h3><p>移到專案資料夾中，確定 vendor 中已掛入 <code>phpunit</code> ，並且可以順利執行<code>./vendor/bin/phpunit</code>，有缺少依賴套件的話就在這步驟補上吧。</p>
+<h3 id="安裝-Nodejs"><a href="#安裝-Nodejs" class="headerlink" title="安裝 Nodejs"></a>安裝 Nodejs</h3><blockquote>
+<p>由於 Ubuntu 的 node 已被佔用，如果要在 Ubuntu 上安裝需要另加 nodejs 的 ppa 解決。</p>
+</blockquote>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo<span class="built_in"> add-apt-repository </span>ppa:chris-lea/node.js</span><br><span class="line">sudo apt-get install nodejs</span><br><span class="line"></span><br><span class="line">// 測試安裝成功</span><br><span class="line">nodejs -v //<span class="built_in"> or </span>node -v </span><br><span class="line">v0.10.37</span><br></pre></td></tr></table></figure>
+<h3 id="安裝-npm-nodejs-的套件管理"><a href="#安裝-npm-nodejs-的套件管理" class="headerlink" title="安裝 npm ( nodejs 的套件管理)"></a>安裝 npm ( nodejs 的套件管理)</h3><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="keyword">get</span> install npm</span><br><span class="line"></span><br><span class="line"><span class="comment">// 測試安裝成功</span></span><br><span class="line">npm -v </span><br><span class="line"><span class="number">1.4</span><span class="number">.28</span></span><br></pre></td></tr></table></figure>
+<h3 id="安裝-global-環境的-Gulp"><a href="#安裝-global-環境的-Gulp" class="headerlink" title="安裝 global 環境的 Gulp"></a>安裝 global 環境的 Gulp</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo npm <span class="keyword">install</span> -g gulp </span><br><span class="line"></span><br><span class="line">// 測試安裝成功</span><br><span class="line">gulp</span><br><span class="line">[<span class="number">12</span>:<span class="number">02</span>:<span class="number">53</span>] <span class="keyword">Local</span> gulp <span class="keyword">not</span> <span class="keyword">found</span> <span class="keyword">in</span> ~/git</span><br><span class="line">[<span class="number">12</span>:<span class="number">02</span>:<span class="number">53</span>] Try running: npm <span class="keyword">install</span> gulp</span><br></pre></td></tr></table></figure>
+<h2 id="Laravel-5-1-專案相關套件安裝"><a href="#Laravel-5-1-專案相關套件安裝" class="headerlink" title="Laravel 5.1 專案相關套件安裝"></a>Laravel 5.1 專案相關套件安裝</h2><p>移動到 Laravel 5.1 的專案資料夾安裝 gulp 和 laravel-elxir</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> project-forder</span><br></pre></td></tr></table></figure>
+<p>確定 <code>package.json</code> 檔中有包含 <code>&quot;laravel-elixir&quot;: &quot;^3.0.0&quot;,</code> ，接下來開始安裝套件</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm <span class="keyword">install</span></span><br></pre></td></tr></table></figure>
+<p>試試寫在 <code>gulpfile.js</code> 中的預設值能不能正常運作</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Laravel 5.1 gulpfile.js 的預設值</span></span><br><span class="line"><span class="keyword">var</span> elixir = <span class="built_in">require</span>(<span class="string">'laravel-elixir'</span>);</span><br><span class="line"></span><br><span class="line">elixir(<span class="function"><span class="keyword">function</span>(<span class="params">mix</span>) </span>&#123;</span><br><span class="line">    mix.sass(<span class="string">'app.scss'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>執行 <code>gulp</code> 的設定，右上有跑出通知代表成功！</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gulp</span><br></pre></td></tr></table></figure>
+<h2 id="使用-laravel-elixir-在存檔時自動觸發-phpUnit"><a href="#使用-laravel-elixir-在存檔時自動觸發-phpUnit" class="headerlink" title="使用 laravel-elixir 在存檔時自動觸發 phpUnit"></a>使用 laravel-elixir 在存檔時自動觸發 phpUnit</h2><p>打開 <code>gulpfile.js</code>，將底下的 function 改寫為</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">elixir(<span class="name">function</span>(<span class="name">mix</span>) &#123;</span><br><span class="line">	mix.phpUnit()<span class="comment">;</span></span><br><span class="line">&#125;)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>存檔後在命令列上打 <code>gulp watch</code> ，接下來試著去修改 php 或是 <code>tests</code> 中的檔案，開始自動化測試吧。</p>
+<h2 id="參考連結"><a href="#參考連結" class="headerlink" title="參考連結"></a>參考連結</h2><p><a href="https://github.com/laravel/elixir" target="_blank" rel="external">Laravel Elixir (GitHub)</a></p>
+<p><a href="https://laracasts.com/series/whats-new-in-laravel-5/episodes/10" target="_blank" rel="external">Laracast: Laravel Elxir</a></p>
+<p><a href="https://laracasts.com/lessons/how-to-trigger-tests-on-save" target="_blank" rel="external">Laracast: Trigger test on save</a></p>
+]]></content>
+    </entry>
+    
+  
+  
+</search>
