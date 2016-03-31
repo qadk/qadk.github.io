@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yuhui.im/"/>
-  <updated>2016-02-29T07:43:25.000Z</updated>
+  <updated>2016-03-31T15:57:06.000Z</updated>
   <id>http://yuhui.im/</id>
   
   <author>
@@ -16,11 +16,77 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>在 Heroku 上佈署 Laravel 5</title>
+    <link href="http://yuhui.im/2016/03/31/deploy-laravel-to-heroku/"/>
+    <id>http://yuhui.im/2016/03/31/deploy-laravel-to-heroku/</id>
+    <published>2016-03-31T15:51:45.000Z</published>
+    <updated>2016-03-31T15:57:06.000Z</updated>
+    
+    <content type="html">&lt;p&gt;最近想要找個空間放開發中的小專案，覺得 &lt;a href=&quot;heroku.com&quot;&gt;Heroku&lt;/a&gt; 的免費方案很符合需求，所以試著把 Laravel 佈署上去，簡單說一下步驟和需要注意的地方。&lt;/p&gt;
+&lt;h2 id=&quot;專案準備&quot;&gt;&lt;a href=&quot;#專案準備&quot; class=&quot;headerlink&quot; title=&quot;專案準備&quot;&gt;&lt;/a&gt;專案準備&lt;/h2&gt;&lt;p&gt;先把要佈署的專案準備好，這裡用一個全新的專案為例：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;建立新的 Laravel 專案並移至專案資料夾&lt;/p&gt;
+&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ composer &lt;span class=&quot;keyword&quot;&gt;create&lt;/span&gt;-&lt;span class=&quot;keyword&quot;&gt;project&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;--prefer-dist laravel/laravel hi_heroku&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ cd hi_heroku&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;建立 git&lt;/p&gt;
+&lt;figure class=&quot;highlight elixir&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;variable&quot;&gt;$ &lt;/span&gt;git init&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;variable&quot;&gt;$ &lt;/span&gt;git add .&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;variable&quot;&gt;$ &lt;/span&gt;git commit -m &lt;span class=&quot;string&quot;&gt;&#39;first commit&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;安裝並設定-Heroku-Command-Line-Interface&quot;&gt;&lt;a href=&quot;#安裝並設定-Heroku-Command-Line-Interface&quot; class=&quot;headerlink&quot; title=&quot;安裝並設定 Heroku Command Line Interface&quot;&gt;&lt;/a&gt;安裝並設定 Heroku Command Line Interface&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;到官方下載 &lt;a href=&quot;https://devcenter.heroku.com/articles/getting-started-with-php#set-up&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Heroku Command Line Interface (CLI)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;於命令行中登入 Heroku &lt;code&gt;heroku login&lt;/code&gt; (依序輸入當初註冊的 Email、密碼)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;建立一個新-Heroku-App-然後開始佈署&quot;&gt;&lt;a href=&quot;#建立一個新-Heroku-App-然後開始佈署&quot; class=&quot;headerlink&quot; title=&quot;建立一個新 Heroku App 然後開始佈署&quot;&gt;&lt;/a&gt;建立一個新 Heroku App 然後開始佈署&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;建立 Procfile 並將專案首頁指向 public 資料夾 &lt;/p&gt;
+&lt;figure class=&quot;highlight elixir&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;variable&quot;&gt;$ &lt;/span&gt;echo &lt;span class=&quot;symbol&quot;&gt;web:&lt;/span&gt; vendor/bin/heroku-php-apache2 public/ &amp;gt; Procfile&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;variable&quot;&gt;$ &lt;/span&gt;git add .&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;variable&quot;&gt;$ &lt;/span&gt;git commit -m &lt;span class=&quot;string&quot;&gt;&#39;Procfile for Heroku&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;建立 Heroku App&lt;/p&gt;
+&lt;figure class=&quot;highlight elixir&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;variable&quot;&gt;$ &lt;/span&gt;heroku create&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;宣告使用的環境安裝包&lt;br&gt;官方有提供 PHP 適合的環境安裝包，直接載入就能使用&lt;/p&gt;
+&lt;figure class=&quot;highlight actionscript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ heroku buildpacks:&lt;span class=&quot;keyword&quot;&gt;set&lt;/span&gt; heroku/php&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;設定 Laravel 需要的環境變數( &lt;code&gt;.env&lt;/code&gt; 中所需的 Key )&lt;/p&gt;
+&lt;figure class=&quot;highlight actionscript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ heroku config:&lt;span class=&quot;keyword&quot;&gt;set&lt;/span&gt; APP_KEY=&amp;#123;app_key&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;上傳專案&lt;br&gt;使用 git 將專案傳上 heroku 後，就可以看到環境正在安裝的過程啦。&lt;/p&gt;
+&lt;figure class=&quot;highlight armasm&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ git &lt;span class=&quot;keyword&quot;&gt;push &lt;/span&gt;heroku master&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;查看佈署結果&lt;/p&gt;
+&lt;figure class=&quot;highlight arduino&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ heroku &lt;span class=&quot;built_in&quot;&gt;open&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;看到熟悉的 &lt;code&gt;Laravel 5&lt;/code&gt; 就完成佈署了。&lt;/p&gt;
+&lt;h3 id=&quot;小提示&quot;&gt;&lt;a href=&quot;#小提示&quot; class=&quot;headerlink&quot; title=&quot;小提示&quot;&gt;&lt;/a&gt;小提示&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;上傳專案時，如果看到建立環境時只跑 &lt;code&gt;npm&lt;/code&gt; 的套件包導致完全進不了 Laravel 時，可以試著改用網址的方式掛入環境包，參考 &lt;a href=&quot;https://github.com/heroku/heroku-buildpack-php&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Heroku buildpack: PHP&lt;/a&gt;，通常會發生在第一次建立環境時。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;參考資料&quot;&gt;&lt;a href=&quot;#參考資料&quot; class=&quot;headerlink&quot; title=&quot;參考資料&quot;&gt;&lt;/a&gt;參考資料&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://devcenter.heroku.com/articles/getting-started-with-php#introduction&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Getting Started on Heroku with PHP&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://devcenter.heroku.com/articles/getting-started-with-laravel&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Getting Started with Laravel on Heroku&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://devcenter.heroku.com/articles/procfile&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Process Types and the Procfile&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;http://www.easylaravelbook.com/blog/2015/01/31/deploying-a-laravel-application-to-heroku/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Deploying a Laravel Application to Heroku&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://github.com/heroku/heroku-buildpack-php&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Heroku buildpack: PHP&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近想要找個空間放開發中的小專案，覺得 &lt;a href=&quot;heroku.com&quot;&gt;Heroku&lt;/a&gt; 的免費方案很符合需求，所以試著把 Laravel 佈署上去，簡單說一下步驟和需要注意的地方。&lt;/p&gt;
+&lt;h2 id=&quot;專案準備&quot;&gt;&lt;a href=&quot;#專案準備&quot; clas
+    
+    </summary>
+    
+      <category term="PHP" scheme="http://yuhui.im/categories/php/"/>
+    
+      <category term="Laravel" scheme="http://yuhui.im/categories/php/laravel/"/>
+    
+    
+      <category term="Laravel" scheme="http://yuhui.im/tags/laravel/"/>
+    
+      <category term="Heroku" scheme="http://yuhui.im/tags/heroku/"/>
+    
+  </entry>
+  
+  <entry>
     <title>開發你的第一個 Composer 套件</title>
     <link href="http://yuhui.im/2016/02/29/create-your-first-composer-package/"/>
     <id>http://yuhui.im/2016/02/29/create-your-first-composer-package/</id>
     <published>2016-02-29T06:19:30.000Z</published>
-    <updated>2016-02-29T07:43:25.000Z</updated>
+    <updated>2016-02-29T07:48:02.000Z</updated>
     
     <content type="html">&lt;p&gt;有些功能可以獨立於專案外運作且多個專案都會需要用到它時，手動複製 code 然後貼過去已經不是最好的辦法了，還是有新的想法可以造福人群，來試試自己做個 package 吧。&lt;/p&gt;
 &lt;p&gt;如果是私有的套件不想上傳公開平台 ( &lt;a href=&quot;https://github.com&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GitHub&lt;/a&gt; / &lt;a href=&quot;https://packagist.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Packagist&lt;/a&gt; )，這裡也會帶到&lt;a href=&quot;#私人套件-Bitbucket&quot;&gt;私有項目&lt;/a&gt;的掛載辦法。&lt;/p&gt;
@@ -54,7 +120,7 @@
 &lt;li&gt;輸入 &lt;code&gt;git://github.com/qadk/helloworld&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;確認無誤後按下 Submit 就成功了&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&quot;私人套件-Bitbucket&quot;&gt;&lt;a href=&quot;#私人套件-Bitbucket&quot; class=&quot;headerlink&quot; title=&quot;私人套件 ( Bitbucket )&quot;&gt;&lt;/a&gt;私人套件 ( Bitbucket )&lt;/h3&gt;&lt;p&gt;前面的上傳步驟與&lt;a href=&quot;#公開套件-GitHub-Packagist&quot;&gt;公開套件&lt;/a&gt; 相同，差別只在於改傳到 Bitbucket 中，但後面的掛入專案因為是私有的資源庫，所以我們在掛入專案時必需在專案的 &lt;code&gt;composer.json&lt;/code&gt; 中另外設定：&lt;br&gt;&lt;figure class=&quot;highlight perl&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;repositories&quot;&lt;/span&gt;: [&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;string&quot;&gt;&quot;type&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;vcs&quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;string&quot;&gt;&quot;url&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;git@bitbucket.org:qadk/helloworld.git&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;],&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;私有套件-Bitbucket&quot;&gt;&lt;a href=&quot;#私有套件-Bitbucket&quot; class=&quot;headerlink&quot; title=&quot;私有套件 ( Bitbucket )&quot;&gt;&lt;/a&gt;私有套件 ( Bitbucket )&lt;/h3&gt;&lt;p&gt;前面的上傳步驟與&lt;a href=&quot;#公開套件-GitHub-Packagist&quot;&gt;公開套件&lt;/a&gt; 相同，差別只在於改傳到 Bitbucket 中，但後面的掛入專案因為是私有的資源庫，所以我們在掛入專案時必需在專案的 &lt;code&gt;composer.json&lt;/code&gt; 中另外設定：&lt;br&gt;&lt;figure class=&quot;highlight perl&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;repositories&quot;&lt;/span&gt;: [&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;string&quot;&gt;&quot;type&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;vcs&quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;string&quot;&gt;&quot;url&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;git@bitbucket.org:qadk/helloworld.git&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;],&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;這裡的 &lt;code&gt;url&lt;/code&gt; 可以選擇使用 &lt;/p&gt;
 &lt;ul&gt;
