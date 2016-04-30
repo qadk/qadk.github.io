@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yuhui.im/2016/04/30/api-output-used-adapter-pattern/</loc>
+    
+    <lastmod>2016-04-30T09:41:32.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yuhui.im/2016/03/31/deploy-laravel-to-heroku/</loc>
     
     <lastmod>2016-03-31T15:57:06.000Z</lastmod>

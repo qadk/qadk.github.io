@@ -1,0 +1,692 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="如果你想成為某一種人，若不花心血，朝那個方向去努力，如何變成那一種人呢?" />
+
+
+
+  <meta name="keywords" content="Adapter Pattern,API," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Yuhui's Notes" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/images/icon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="最近專案需要以 API 的方式和前端進行溝通，但是覺得在每個 controller 的 method 中各自修改調整 API 所要的回傳值是個不太好的方案。在尋找更好的做法時發現了 Fractal Transformer ，但因為回傳格式跟需求有些差異所以最後放棄使用這個套件，就參考了他的做法用簡略的方式和自己的理解滿足需求。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="API 輸出資料整理 - Adapter Pattern 學習筆記">
+<meta property="og:url" content="http://yuhui.im/2016/04/30/api-output-used-adapter-pattern/index.html">
+<meta property="og:site_name" content="Yuhui's Notes">
+<meta property="og:description" content="最近專案需要以 API 的方式和前端進行溝通，但是覺得在每個 controller 的 method 中各自修改調整 API 所要的回傳值是個不太好的方案。在尋找更好的做法時發現了 Fractal Transformer ，但因為回傳格式跟需求有些差異所以最後放棄使用這個套件，就參考了他的做法用簡略的方式和自己的理解滿足需求。">
+<meta property="og:updated_time" content="2016-04-30T09:41:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="API 輸出資料整理 - Adapter Pattern 學習筆記">
+<meta name="twitter:description" content="最近專案需要以 API 的方式和前端進行溝通，但是覺得在每個 controller 的 method 中各自修改調整 API 所要的回傳值是個不太好的方案。在尋找更好的做法時發現了 Fractal Transformer ，但因為回傳格式跟需求有些差異所以最後放棄使用這個套件，就參考了他的做法用簡略的方式和自己的理解滿足需求。">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'hide'
+  };
+</script>
+
+  <title> API 輸出資料整理 - Adapter Pattern 學習筆記 | Yuhui's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-68394603-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">Yuhui's Notes</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              API 輸出資料整理 - Adapter Pattern 學習筆記
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          發表於
+          <time itemprop="dateCreated" datetime="2016-04-30T17:22:35+08:00" content="2016-04-30">
+            2016-04-30
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/php/" itemprop="url" rel="index">
+                  <span itemprop="name">PHP</span>
+                </a>
+              </span>
+
+              
+              
+                ， 
+              
+
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/php/design-pattern/" itemprop="url" rel="index">
+                  <span itemprop="name">Design Pattern</span>
+                </a>
+              </span>
+
+              
+              
+                ， 
+              
+
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/php/design-pattern/clean-code/" itemprop="url" rel="index">
+                  <span itemprop="name">Clean Code</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2016/04/30/api-output-used-adapter-pattern/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/30/api-output-used-adapter-pattern/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>最近專案需要以 API 的方式和前端進行溝通，但是覺得在每個 controller 的 method 中各自修改調整 API 所要的回傳值是個不太好的方案。<br>在尋找更好的做法時發現了 <a href="http://fractal.thephpleague.com/transformers/" target="_blank" rel="external">Fractal Transformer</a> ，但因為回傳格式跟需求有些差異所以最後放棄使用這個套件，就參考了他的做法用簡略的方式和自己的理解滿足需求。</p>
+<a id="more"></a>
+<h3 id="適用情況"><a href="#適用情況" class="headerlink" title="適用情況"></a>適用情況</h3><p>Client 需要特定的格式(例如製定好規格的資料欄位或是型別)，但是由原有/第三方的 Class 所提供的格式不能完全滿足需求時，就可以使用 Adapter 來轉接，讓兩邊程式碼都不需要為了這件事做額外的改動。</p>
+<h3 id="使用實例"><a href="#使用實例" class="headerlink" title="使用實例"></a>使用實例</h3><p>參考 <a href="http://fractal.thephpleague.com/transformers/" target="_blank" rel="external">Fractal Transformer</a> 的做法，試著用自己理解和最簡單的方式實作一個能符合目前需求且基本的 Adapter 。</p>
+<h4 id="TransformerManager"><a href="#TransformerManager" class="headerlink" title="TransformerManager"></a>TransformerManager</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TransformerManager</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">collection</span><span class="params">(Collection $data, TransformerAbstract $transformer)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        $result = [];</span><br><span class="line">        <span class="keyword">foreach</span> ($data <span class="keyword">as</span> $index =&gt; $item) &#123;</span><br><span class="line">            $result[$index] = $this-&gt;transform($item, $transformer);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> $result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">item</span><span class="params">($data, TransformerAbstract $transformer)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> $this-&gt;transform($data, $transformer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">paginator</span><span class="params">(LengthAwarePaginator $paginator)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> [</span><br><span class="line">            <span class="string">'total_count'</span> =&gt; (int)$paginator-&gt;total(),</span><br><span class="line">            <span class="string">'total_pages'</span> =&gt; (int)$paginator-&gt;lastPage(),</span><br><span class="line">            <span class="string">'current_page'</span> =&gt; (int)$paginator-&gt;currentPage(),</span><br><span class="line">            <span class="string">'limit'</span> =&gt; (int)$paginator-&gt;perPage(),</span><br><span class="line">        ];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">transform</span><span class="params">($item, TransformerAbstract $transformer)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        $defaultIncludes = $transformer-&gt;getDefaultIncludes();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">empty</span>($defaultIncludes) || !is_array($defaultIncludes)) &#123;</span><br><span class="line">            <span class="keyword">return</span> $transformer-&gt;transform($item);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $result = $transformer-&gt;transform($item);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">foreach</span> ($defaultIncludes <span class="keyword">as</span> $include) &#123;</span><br><span class="line">            $method_name = <span class="string">'include'</span> . ucfirst($include);</span><br><span class="line">            <span class="keyword">if</span> (method_exists($transformer, <span class="string">"&#123;$method_name&#125;"</span>)) &#123;</span><br><span class="line">                $result = array_merge($result, [$include =&gt; $transformer-&gt;$method_name($item)]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> $result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="TransformerAbstract"><a href="#TransformerAbstract" class="headerlink" title="TransformerAbstract"></a>TransformerAbstract</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">TransformerAbstract</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $defaultIncludes = [];</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * <span class="doctag">@var</span> TransformerManager</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">protected</span> $manager;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getManager</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">empty</span>($this-&gt;manager)) &#123;</span><br><span class="line">            $this-&gt;manager = <span class="keyword">new</span> TransformerManager();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> $this-&gt;manager;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getDefaultIncludes</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> $this-&gt;defaultIncludes;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="ArticleTransformer"><a href="#ArticleTransformer" class="headerlink" title="ArticleTransformer"></a>ArticleTransformer</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ArticleTransformer</span> <span class="keyword">extends</span> <span class="title">TransformerAbstract</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $defaultIncludes = [<span class="string">'author'</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">transform</span><span class="params">(Article $article)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> [</span><br><span class="line">            <span class="string">'article_id'</span> =&gt; $article-&gt;id,</span><br><span class="line">            <span class="string">'subject'</span> =&gt; $article-&gt;subject,</span><br><span class="line">            <span class="string">'description'</span> =&gt; $article-&gt;description,</span><br><span class="line">            <span class="string">'created_at'</span> =&gt; $article-&gt;created_at-&gt;diffForHumans(),</span><br><span class="line">        ];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">includeAuthor</span><span class="params">(Article $article)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> $this-&gt;getManager()-&gt;item($article-&gt;author, <span class="keyword">new</span> UserTransformer);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="UserTransformer"><a href="#UserTransformer" class="headerlink" title="UserTransformer"></a>UserTransformer</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserTransformer</span> <span class="keyword">extends</span> <span class="title">TransformerAbstract</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">transform</span><span class="params">(User $user)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> [</span><br><span class="line">            <span class="string">'user_id'</span> =&gt; $user-&gt;id,</span><br><span class="line">            <span class="string">'name'</span> =&gt; $user-&gt;name,</span><br><span class="line">            <span class="string">'avatar'</span> =&gt; $user-&gt;avatar,</span><br><span class="line">        ];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="ArticlesController"><a href="#ArticlesController" class="headerlink" title="ArticlesController"></a>ArticlesController</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ArticlesController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">(TransformerManager $transformerManager)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        $articles = Article::paginator(<span class="number">20</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> response()-&gt;json(</span><br><span class="line">            [</span><br><span class="line">                <span class="string">'type'</span> =&gt; $tab,</span><br><span class="line">                <span class="string">'data'</span> =&gt; $transformerManager-&gt;collection($articles-&gt;getCollection(), <span class="keyword">new</span> ArticlesListTransformer),</span><br><span class="line">                <span class="string">'status'</span> =&gt; <span class="string">'success'</span>,</span><br><span class="line">                <span class="string">'paginator'</span> =&gt; $transformerManager-&gt;paginator($articles),</span><br><span class="line">            ]</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">show</span><span class="params">($id, TransformerManager $transformerManager)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        $article = Article::find($id);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> response()-&gt;json([</span><br><span class="line">            <span class="string">'data'</span> =&gt; [</span><br><span class="line">                <span class="string">'article'</span> =&gt; $transformerManager-&gt;item($article, <span class="keyword">new</span> ArticleTransformer),</span><br><span class="line">                <span class="string">'comments'</span> =&gt; $this-&gt;transformerManager-&gt;collection($article-&gt;comments, <span class="keyword">new</span> CommentTransformer),</span><br><span class="line">            ],</span><br><span class="line">            <span class="string">'status'</span> =&gt; <span class="string">'success'</span></span><br><span class="line">        ]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="輸出結果"><a href="#輸出結果" class="headerlink" title="輸出結果"></a>輸出結果</h4><h5 id="分頁效果"><a href="#分頁效果" class="headerlink" title="分頁效果"></a>分頁效果</h5><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line"><span class="symbol">   data:</span>[  </span><br><span class="line">      &#123;  </span><br><span class="line"><span class="symbol">         article_id:</span><span class="number">1</span>,</span><br><span class="line"><span class="symbol">         subject:</span><span class="string">"Voluptates est rem vero odit earum."</span>,</span><br><span class="line"><span class="symbol">         description:</span><span class="string">"Iste nihil animi et ipsa ipsa. Reprehenderit placeat qui unde quia. Asperiores architecto qui nemo est sint exercitationem aut excepturi. Quod quo eius commodi commodi."</span>,</span><br><span class="line"><span class="symbol">         created_at:</span><span class="string">"33 seconds ago"</span>,</span><br><span class="line"><span class="symbol">         author:</span>&#123;  </span><br><span class="line"><span class="symbol">            user_id:</span><span class="number">1</span>,</span><br><span class="line"><span class="symbol">            name:</span><span class="string">"Sarah Prosacco DVM"</span>,</span><br><span class="line"><span class="symbol">            avatar:</span><span class="string">"http://lorempixel.com/640/480/?58341"</span></span><br><span class="line">         &#125;</span><br><span class="line">      &#125;,</span><br><span class="line"></span><br><span class="line">      ...</span><br><span class="line">      </span><br><span class="line">      &#123;  </span><br><span class="line"><span class="symbol">         article_id:</span><span class="number">9</span>,</span><br><span class="line"><span class="symbol">         subject:</span><span class="string">"Rerum necessitatibus autem ab maiores incidunt."</span>,</span><br><span class="line"><span class="symbol">         description:</span><span class="string">"Tenetur velit non dolorem quo dolorem optio aspernatur. Qui et quod sit praesentium. Voluptatem sed consequuntur dignissimos consequatur tempore dicta. Doloremque odit eligendi sit ea laborum."</span>,</span><br><span class="line"><span class="symbol">         created_at:</span><span class="string">"33 seconds ago"</span>,</span><br><span class="line"><span class="symbol">         author:</span>&#123;  </span><br><span class="line"><span class="symbol">            user_id:</span><span class="number">3</span>,</span><br><span class="line"><span class="symbol">            name:</span><span class="string">"Gabrielle Green"</span>,</span><br><span class="line"><span class="symbol">            avatar:</span><span class="string">"http://lorempixel.com/640/480/?79444"</span></span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   ],</span><br><span class="line"><span class="symbol">   status:</span><span class="string">"success"</span>,</span><br><span class="line"><span class="symbol">   paginator:</span>&#123;  </span><br><span class="line"><span class="symbol">      total_count:</span><span class="number">9</span>,</span><br><span class="line"><span class="symbol">      total_pages:</span><span class="number">1</span>,</span><br><span class="line"><span class="symbol">      current_page:</span><span class="number">1</span>,</span><br><span class="line"><span class="symbol">      limit:</span><span class="number">20</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="單篇效果"><a href="#單篇效果" class="headerlink" title="單篇效果"></a>單篇效果</h5><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line"><span class="symbol">   data:</span>&#123;  </span><br><span class="line"><span class="symbol">      article:</span>&#123;  </span><br><span class="line"><span class="symbol">         article_id:</span><span class="number">9</span>,</span><br><span class="line"><span class="symbol">         subject:</span><span class="string">"Rerum necessitatibus autem ab maiores incidunt."</span>,</span><br><span class="line"><span class="symbol">         description:</span><span class="string">"Tenetur velit non dolorem quo dolorem optio aspernatur. Qui et quod sit praesentium. Voluptatem sed consequuntur dignissimos consequatur tempore dicta. Doloremque odit eligendi sit ea laborum."</span>,</span><br><span class="line"><span class="symbol">         created_at:</span><span class="string">"5 minutes ago"</span>,</span><br><span class="line"><span class="symbol">         author:</span>&#123;  </span><br><span class="line"><span class="symbol">            user_id:</span><span class="number">3</span>,</span><br><span class="line"><span class="symbol">            name:</span><span class="string">"Gabrielle Green"</span>,</span><br><span class="line"><span class="symbol">            avatar:</span><span class="string">"http://lorempixel.com/640/480/?79444"</span></span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;,</span><br><span class="line"><span class="symbol">   status:</span><span class="string">"success"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h3><p>標題上面雖然寫 Adapter 學習筆記，但當時完全沒想到可以用 Adapter 來解，因為看過的範例大都用在第三方套件的串接上，直到實作完後查了點資料才知道這算是 Adapter ，所以寫這篇希望能幫上同樣有這種需求但不知道可以用這個 Pattern 來解的同伴們。</p>
+<p><del>#跟在開源專案的尾巴偷師系列</del></p>
+<h3 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h3><p><a href="https://en.wikipedia.org/wiki/Adapter_pattern" target="_blank" rel="external">Adapter Pattern - Wiki</a><br><a href="http://www.taaze.tw/sing.html?pid=11100126953" target="_blank" rel="external">大話設計模式 - 在 NBA 我需要翻譯－轉接器模式 p.250</a><br><a href="http://stackoverflow.com/questions/14209342/oop-pattern-to-convert-one-data-format-to-another" target="_blank" rel="external">OOP pattern to convert one data format to another</a><br><a href="https://github.com/thephpleague/fractal" target="_blank" rel="external">Fractal - Output complex, flexible, AJAX/RESTful data structures.</a></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/adapter-pattern/" rel="tag">#Adapter Pattern</a>
+          
+            <a href="/tags/api/" rel="tag">#API</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/31/deploy-laravel-to-heroku/" rel="next">在 Heroku 上佈署 Laravel 5</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Yuhui" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yuhui</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">如果你想成為某一種人，若不花心血，朝那個方向去努力，如何變成那一種人呢?</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#適用情況"><span class="nav-number">1.</span> <span class="nav-text">適用情況</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用實例"><span class="nav-number">2.</span> <span class="nav-text">使用實例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TransformerManager"><span class="nav-number">2.1.</span> <span class="nav-text">TransformerManager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TransformerAbstract"><span class="nav-number">2.2.</span> <span class="nav-text">TransformerAbstract</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ArticleTransformer"><span class="nav-number">2.3.</span> <span class="nav-text">ArticleTransformer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UserTransformer"><span class="nav-number">2.4.</span> <span class="nav-text">UserTransformer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ArticlesController"><span class="nav-number">2.5.</span> <span class="nav-text">ArticlesController</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#輸出結果"><span class="nav-number">2.6.</span> <span class="nav-text">輸出結果</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#分頁效果"><span class="nav-number">2.6.1.</span> <span class="nav-text">分頁效果</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#單篇效果"><span class="nav-number">2.6.2.</span> <span class="nav-text">單篇效果</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#心得"><span class="nav-number">3.</span> <span class="nav-text">心得</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#參考資料"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yuhui</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'yuhuisblog';
+      var disqus_identifier = '2016/04/30/api-output-used-adapter-pattern/';
+      var disqus_title = 'API 輸出資料整理 - Adapter Pattern 學習筆記';
+      var disqus_url = 'http://yuhui.im/2016/04/30/api-output-used-adapter-pattern/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  
+  <script src="/js/search.js"></script>
+
+</body>
+</html>
