@@ -4,6 +4,36 @@
   
     
     <entry>
+      <title><![CDATA[Laravel Host Header Attack]]></title>
+      <url>http://yuhui.im/2016/05/29/laravel-host-header-attack/</url>
+      <content type="html"><![CDATA[<p>前陣子有使用者回報站上的忘記密碼功能可以使用修改 <code>header</code> 中 <code>Host</code> 的方式在信件寄出時將連結位置改為任意想要的網域，也就是可能用這方式將使用者釣到攻擊者的站上騙取使用者的密碼，這裡提出我找到的解決方法供人參考，也希望如果有更好的解決方案可以反饋一下。</p>
+<a id="more"></a>
+<h2 id="攻擊原理"><a href="#攻擊原理" class="headerlink" title="攻擊原理"></a>攻擊原理</h2><ol>
+<li><p>按照官方文件建立忘記密碼功能 <a href="https://laravel.com/docs/5.1/authentication#resetting-passwords" target="_blank" rel="external">Resetting Passwords</a> <img src="/images/posts/laravel-host-header-attack/password_email.png" alt="簡單的忘記密碼寄信頁"></p>
+</li>
+<li><p>按照正常流程使用忘記密碼功能可以得到 <img src="/images/posts/laravel-host-header-attack/true.png" alt="正常的忘記密碼重設通知信"></p>
+</li>
+<li><p>安裝一個可以修改 <code>header</code> 的套件，ex: <a href="https://chrome.google.com/webstore/detail/header-editor/pkokmcnklmgbepioackopoknkdlhefjl?hl=zh-TW" target="_blank" rel="external">Header-Editor</a></p>
+</li>
+<li><p>修改 <code>host</code> 的設定如圖： <img src="/images/posts/laravel-host-header-attack/header-editor_setting.png" alt="Header-Editor 設定"></p>
+<blockquote>
+<p>注意：測試完記得將 <code>Active</code> 取消，不然在使用網站時會有意想不到的錯誤發生</p>
+</blockquote>
+</li>
+<li><p>重新送出忘記密碼，就可以在信箱中得到網址 <code>host</code> 為 <code>attack.com</code> 的連結一個 <img src="/images/posts/laravel-host-header-attack/attack.com.png" alt="網址 host 為 attack.com "></p>
+</li>
+</ol>
+<h3 id="可能影響範圍"><a href="#可能影響範圍" class="headerlink" title="可能影響範圍"></a>可能影響範圍</h3><p>使用者送出的表單如果會直接發動通知，例如寄信、即時顯示網址之類的功能，都有可能會被這種攻擊方式所影響。</p>
+<h2 id="幾種解決方案"><a href="#幾種解決方案" class="headerlink" title="幾種解決方案"></a>幾種解決方案</h2><ul>
+<li>仔細看 <code>resources/views/emails/password.blade.php</code> 中所使用的連結是用 <code>url</code> 所產生的，如果只有這裡可能會被攻擊者所利用，可以選擇直接寫死。</li>
+<li>追蹤 <code>url</code> 產生的地方會來到 <code>Illuminate\Routing\UrlGenerator</code> ，我查了一下，主要問題點在於 <code>getRootUrl()</code> 身上，如果沒有設定 <code>forcedRoot</code> 則他會相信來自 <code>request</code> 的 <code>root</code> 資訊，所以我們只要在啟動過程中將 <code>forcedRoot</code> 依據環境設定進去後， <code>Laravel</code> 就不會再相信由攻擊者送過來的 <code>host</code> 了。<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppServiceProvider</span> <span class="keyword">extends</span> <span class="title">ServiceProvider</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Bootstrap any application services.</span><br><span class="line">     *</span><br><span class="line">     * @return void</span><br><span class="line">     */</span></span><br><span class="line">    public function boot()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">URL</span>::forceRootUrl(config(<span class="symbol">'app</span>.url'));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p><a href="http://www.acunetix.com/vulnerabilities/web/host-header-attack" target="_blank" rel="external">Host header attack - Acunetix</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[API 輸出資料整理 - Adapter Pattern 學習筆記]]></title>
       <url>http://yuhui.im/2016/04/30/api-output-used-adapter-pattern/</url>
       <content type="html"><![CDATA[<p>最近專案需要以 API 的方式和前端進行溝通，但是覺得在每個 controller 的 method 中各自修改調整 API 所要的回傳值是個不太好的方案。<br>在尋找更好的做法時發現了 <a href="http://fractal.thephpleague.com/transformers/" target="_blank" rel="external">Fractal Transformer</a> ，但因為回傳格式跟需求有些差異所以最後放棄使用這個套件，就參考了他的做法用簡略的方式和自己的理解滿足需求。</p>

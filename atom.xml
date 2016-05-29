@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yuhui.im/"/>
-  <updated>2016-04-30T09:41:32.000Z</updated>
+  <updated>2016-05-29T16:13:30.000Z</updated>
   <id>http://yuhui.im/</id>
   
   <author>
@@ -14,6 +14,56 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Laravel Host Header Attack</title>
+    <link href="http://yuhui.im/2016/05/29/laravel-host-header-attack/"/>
+    <id>http://yuhui.im/2016/05/29/laravel-host-header-attack/</id>
+    <published>2016-05-29T15:19:18.000Z</published>
+    <updated>2016-05-29T16:13:30.000Z</updated>
+    
+    <content type="html">&lt;p&gt;前陣子有使用者回報站上的忘記密碼功能可以使用修改 &lt;code&gt;header&lt;/code&gt; 中 &lt;code&gt;Host&lt;/code&gt; 的方式在信件寄出時將連結位置改為任意想要的網域，也就是可能用這方式將使用者釣到攻擊者的站上騙取使用者的密碼，這裡提出我找到的解決方法供人參考，也希望如果有更好的解決方案可以反饋一下。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;攻擊原理&quot;&gt;&lt;a href=&quot;#攻擊原理&quot; class=&quot;headerlink&quot; title=&quot;攻擊原理&quot;&gt;&lt;/a&gt;攻擊原理&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;按照官方文件建立忘記密碼功能 &lt;a href=&quot;https://laravel.com/docs/5.1/authentication#resetting-passwords&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Resetting Passwords&lt;/a&gt; &lt;img src=&quot;/images/posts/laravel-host-header-attack/password_email.png&quot; alt=&quot;簡單的忘記密碼寄信頁&quot;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;按照正常流程使用忘記密碼功能可以得到 &lt;img src=&quot;/images/posts/laravel-host-header-attack/true.png&quot; alt=&quot;正常的忘記密碼重設通知信&quot;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;安裝一個可以修改 &lt;code&gt;header&lt;/code&gt; 的套件，ex: &lt;a href=&quot;https://chrome.google.com/webstore/detail/header-editor/pkokmcnklmgbepioackopoknkdlhefjl?hl=zh-TW&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Header-Editor&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;修改 &lt;code&gt;host&lt;/code&gt; 的設定如圖： &lt;img src=&quot;/images/posts/laravel-host-header-attack/header-editor_setting.png&quot; alt=&quot;Header-Editor 設定&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意：測試完記得將 &lt;code&gt;Active&lt;/code&gt; 取消，不然在使用網站時會有意想不到的錯誤發生&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;重新送出忘記密碼，就可以在信箱中得到網址 &lt;code&gt;host&lt;/code&gt; 為 &lt;code&gt;attack.com&lt;/code&gt; 的連結一個 &lt;img src=&quot;/images/posts/laravel-host-header-attack/attack.com.png&quot; alt=&quot;網址 host 為 attack.com &quot;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;可能影響範圍&quot;&gt;&lt;a href=&quot;#可能影響範圍&quot; class=&quot;headerlink&quot; title=&quot;可能影響範圍&quot;&gt;&lt;/a&gt;可能影響範圍&lt;/h3&gt;&lt;p&gt;使用者送出的表單如果會直接發動通知，例如寄信、即時顯示網址之類的功能，都有可能會被這種攻擊方式所影響。&lt;/p&gt;
+&lt;h2 id=&quot;幾種解決方案&quot;&gt;&lt;a href=&quot;#幾種解決方案&quot; class=&quot;headerlink&quot; title=&quot;幾種解決方案&quot;&gt;&lt;/a&gt;幾種解決方案&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;仔細看 &lt;code&gt;resources/views/emails/password.blade.php&lt;/code&gt; 中所使用的連結是用 &lt;code&gt;url&lt;/code&gt; 所產生的，如果只有這裡可能會被攻擊者所利用，可以選擇直接寫死。&lt;/li&gt;
+&lt;li&gt;追蹤 &lt;code&gt;url&lt;/code&gt; 產生的地方會來到 &lt;code&gt;Illuminate\Routing\UrlGenerator&lt;/code&gt; ，我查了一下，主要問題點在於 &lt;code&gt;getRootUrl()&lt;/code&gt; 身上，如果沒有設定 &lt;code&gt;forcedRoot&lt;/code&gt; 則他會相信來自 &lt;code&gt;request&lt;/code&gt; 的 &lt;code&gt;root&lt;/code&gt; 資訊，所以我們只要在啟動過程中將 &lt;code&gt;forcedRoot&lt;/code&gt; 依據環境設定進去後， &lt;code&gt;Laravel&lt;/code&gt; 就不會再相信由攻擊者送過來的 &lt;code&gt;host&lt;/code&gt; 了。&lt;figure class=&quot;highlight scala&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;AppServiceProvider&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;ServiceProvider&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/**&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     * Bootstrap any application services.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     *&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     * @return void&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    public function boot()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;type&quot;&gt;URL&lt;/span&gt;::forceRootUrl(config(&lt;span class=&quot;symbol&quot;&gt;&#39;app&lt;/span&gt;.url&#39;));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;參考資料&quot;&gt;&lt;a href=&quot;#參考資料&quot; class=&quot;headerlink&quot; title=&quot;參考資料&quot;&gt;&lt;/a&gt;參考資料&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;http://www.acunetix.com/vulnerabilities/web/host-header-attack&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Host header attack - Acunetix&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;前陣子有使用者回報站上的忘記密碼功能可以使用修改 &lt;code&gt;header&lt;/code&gt; 中 &lt;code&gt;Host&lt;/code&gt; 的方式在信件寄出時將連結位置改為任意想要的網域，也就是可能用這方式將使用者釣到攻擊者的站上騙取使用者的密碼，這裡提出我找到的解決方法供人參考，也希望如果有更好的解決方案可以反饋一下。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="PHP" scheme="http://yuhui.im/categories/php/"/>
+    
+      <category term="Laravel" scheme="http://yuhui.im/categories/php/laravel/"/>
+    
+    
+      <category term="Laravel 5.2" scheme="http://yuhui.im/tags/laravel-5-2/"/>
+    
+      <category term="Security" scheme="http://yuhui.im/tags/security/"/>
+    
+  </entry>
   
   <entry>
     <title>API 輸出資料整理 - Adapter Pattern 學習筆記</title>

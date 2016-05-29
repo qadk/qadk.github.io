@@ -32,7 +32,7 @@
 
 
 
-  <meta name="keywords" content="Laravel,Heroku," />
+  <meta name="keywords" content="Laravel 5.2,Security," />
 
 
 
@@ -43,28 +43,21 @@
   <link rel="shorticon icon" type="image/x-icon" href="/images/icon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="最近想要找個空間放開發中的小專案，覺得 Heroku 的免費方案很符合需求，所以試著把 Laravel 佈署上去，簡單說一下步驟和需要注意的地方。
-專案準備先把要佈署的專案準備好，這裡用一個全新的專案為例：
-
-建立新的 Laravel 專案並移至專案資料夾
-12$ composer create-project --prefer-dist laravel/laravel hi_heroku$ cd">
+<meta name="description" content="前陣子有使用者回報站上的忘記密碼功能可以使用修改 header 中 Host 的方式在信件寄出時將連結位置改為任意想要的網域，也就是可能用這方式將使用者釣到攻擊者的站上騙取使用者的密碼，這裡提出我找到的解決方法供人參考，也希望如果有更好的解決方案可以反饋一下。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在 Heroku 上佈署 Laravel 5">
-<meta property="og:url" content="http://yuhui.im/2016/03/31/deploy-laravel-to-heroku/index.html">
+<meta property="og:title" content="Laravel Host Header Attack">
+<meta property="og:url" content="http://yuhui.im/2016/05/29/laravel-host-header-attack/index.html">
 <meta property="og:site_name" content="Yuhui's Notes">
-<meta property="og:description" content="最近想要找個空間放開發中的小專案，覺得 Heroku 的免費方案很符合需求，所以試著把 Laravel 佈署上去，簡單說一下步驟和需要注意的地方。
-專案準備先把要佈署的專案準備好，這裡用一個全新的專案為例：
-
-建立新的 Laravel 專案並移至專案資料夾
-12$ composer create-project --prefer-dist laravel/laravel hi_heroku$ cd">
-<meta property="og:updated_time" content="2016-03-31T15:57:06.000Z">
+<meta property="og:description" content="前陣子有使用者回報站上的忘記密碼功能可以使用修改 header 中 Host 的方式在信件寄出時將連結位置改為任意想要的網域，也就是可能用這方式將使用者釣到攻擊者的站上騙取使用者的密碼，這裡提出我找到的解決方法供人參考，也希望如果有更好的解決方案可以反饋一下。">
+<meta property="og:image" content="http://yuhui.im/images/posts/laravel-host-header-attack/password_email.png">
+<meta property="og:image" content="http://yuhui.im/images/posts/laravel-host-header-attack/true.png">
+<meta property="og:image" content="http://yuhui.im/images/posts/laravel-host-header-attack/header-editor_setting.png">
+<meta property="og:image" content="http://yuhui.im/images/posts/laravel-host-header-attack/attack.com.png">
+<meta property="og:updated_time" content="2016-05-29T16:13:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在 Heroku 上佈署 Laravel 5">
-<meta name="twitter:description" content="最近想要找個空間放開發中的小專案，覺得 Heroku 的免費方案很符合需求，所以試著把 Laravel 佈署上去，簡單說一下步驟和需要注意的地方。
-專案準備先把要佈署的專案準備好，這裡用一個全新的專案為例：
-
-建立新的 Laravel 專案並移至專案資料夾
-12$ composer create-project --prefer-dist laravel/laravel hi_heroku$ cd">
+<meta name="twitter:title" content="Laravel Host Header Attack">
+<meta name="twitter:description" content="前陣子有使用者回報站上的忘記密碼功能可以使用修改 header 中 Host 的方式在信件寄出時將連結位置改為任意想要的網域，也就是可能用這方式將使用者釣到攻擊者的站上騙取使用者的密碼，這裡提出我找到的解決方法供人參考，也希望如果有更好的解決方案可以反饋一下。">
+<meta name="twitter:image" content="http://yuhui.im/images/posts/laravel-host-header-attack/password_email.png">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -74,7 +67,7 @@
   };
 </script>
 
-  <title> 在 Heroku 上佈署 Laravel 5 | Yuhui's Notes </title>
+  <title> Laravel Host Header Attack | Yuhui's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
@@ -190,7 +183,7 @@
           
           
             
-              在 Heroku 上佈署 Laravel 5
+              Laravel Host Header Attack
             
           
         </h1>
@@ -199,8 +192,8 @@
       <div class="post-meta">
         <span class="post-time">
           發表於
-          <time itemprop="dateCreated" datetime="2016-03-31T23:51:45+08:00" content="2016-03-31">
-            2016-03-31
+          <time itemprop="dateCreated" datetime="2016-05-29T23:19:18+08:00" content="2016-05-29">
+            2016-05-29
           </time>
         </span>
 
@@ -237,8 +230,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2016/03/31/deploy-laravel-to-heroku/#comments" itemprop="discussionUrl">
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/03/31/deploy-laravel-to-heroku/" itemprop="commentsCount"></span>
+            <a href="/2016/05/29/laravel-host-header-attack/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/05/29/laravel-host-header-attack/" itemprop="commentsCount"></span>
             </a>
           </span>
           
@@ -252,45 +245,30 @@
       
 
       
-        <span itemprop="articleBody"><p>最近想要找個空間放開發中的小專案，覺得 <a href="heroku.com">Heroku</a> 的免費方案很符合需求，所以試著把 Laravel 佈署上去，簡單說一下步驟和需要注意的地方。</p>
-<h2 id="專案準備"><a href="#專案準備" class="headerlink" title="專案準備"></a>專案準備</h2><p>先把要佈署的專案準備好，這裡用一個全新的專案為例：</p>
-<ol>
-<li><p>建立新的 Laravel 專案並移至專案資料夾</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ composer <span class="keyword">create</span>-<span class="keyword">project</span> <span class="comment">--prefer-dist laravel/laravel hi_heroku</span></span><br><span class="line">$ cd hi_heroku</span><br></pre></td></tr></table></figure>
+        <span itemprop="articleBody"><p>前陣子有使用者回報站上的忘記密碼功能可以使用修改 <code>header</code> 中 <code>Host</code> 的方式在信件寄出時將連結位置改為任意想要的網域，也就是可能用這方式將使用者釣到攻擊者的站上騙取使用者的密碼，這裡提出我找到的解決方法供人參考，也希望如果有更好的解決方案可以反饋一下。</p>
+<a id="more"></a>
+<h2 id="攻擊原理"><a href="#攻擊原理" class="headerlink" title="攻擊原理"></a>攻擊原理</h2><ol>
+<li><p>按照官方文件建立忘記密碼功能 <a href="https://laravel.com/docs/5.1/authentication#resetting-passwords" target="_blank" rel="external">Resetting Passwords</a> <img src="/images/posts/laravel-host-header-attack/password_email.png" alt="簡單的忘記密碼寄信頁"></p>
 </li>
-<li><p>建立 git</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>git init</span><br><span class="line"><span class="variable">$ </span>git add .</span><br><span class="line"><span class="variable">$ </span>git commit -m <span class="string">'first commit'</span></span><br></pre></td></tr></table></figure>
+<li><p>按照正常流程使用忘記密碼功能可以得到 <img src="/images/posts/laravel-host-header-attack/true.png" alt="正常的忘記密碼重設通知信"></p>
 </li>
-</ol>
-<h2 id="安裝並設定-Heroku-Command-Line-Interface"><a href="#安裝並設定-Heroku-Command-Line-Interface" class="headerlink" title="安裝並設定 Heroku Command Line Interface"></a>安裝並設定 Heroku Command Line Interface</h2><ol>
-<li>到官方下載 <a href="https://devcenter.heroku.com/articles/getting-started-with-php#set-up" target="_blank" rel="external">Heroku Command Line Interface (CLI)</a></li>
-<li>於命令行中登入 Heroku <code>heroku login</code> (依序輸入當初註冊的 Email、密碼)</li>
-</ol>
-<h2 id="建立一個新-Heroku-App-然後開始佈署"><a href="#建立一個新-Heroku-App-然後開始佈署" class="headerlink" title="建立一個新 Heroku App 然後開始佈署"></a>建立一個新 Heroku App 然後開始佈署</h2><ol>
-<li><p>建立 Procfile 並將專案首頁指向 public 資料夾 </p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>echo <span class="symbol">web:</span> vendor/bin/heroku-php-apache2 public/ &gt; Procfile</span><br><span class="line"><span class="variable">$ </span>git add .</span><br><span class="line"><span class="variable">$ </span>git commit -m <span class="string">'Procfile for Heroku'</span></span><br></pre></td></tr></table></figure>
+<li><p>安裝一個可以修改 <code>header</code> 的套件，ex: <a href="https://chrome.google.com/webstore/detail/header-editor/pkokmcnklmgbepioackopoknkdlhefjl?hl=zh-TW" target="_blank" rel="external">Header-Editor</a></p>
 </li>
-<li><p>建立 Heroku App</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>heroku create</span><br></pre></td></tr></table></figure>
+<li><p>修改 <code>host</code> 的設定如圖： <img src="/images/posts/laravel-host-header-attack/header-editor_setting.png" alt="Header-Editor 設定"></p>
+<blockquote>
+<p>注意：測試完記得將 <code>Active</code> 取消，不然在使用網站時會有意想不到的錯誤發生</p>
+</blockquote>
 </li>
-<li><p>宣告使用的環境安裝包<br>官方有提供 PHP 適合的環境安裝包，直接載入就能使用</p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ heroku buildpacks:<span class="keyword">set</span> heroku/php</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>設定 Laravel 需要的環境變數( <code>.env</code> 中所需的 Key )</p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ heroku config:<span class="keyword">set</span> APP_KEY=&#123;app_key&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>上傳專案<br>使用 git 將專案傳上 heroku 後，就可以看到環境正在安裝的過程啦。</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">push </span>heroku master</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看佈署結果</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ heroku <span class="built_in">open</span></span><br></pre></td></tr></table></figure>
+<li><p>重新送出忘記密碼，就可以在信箱中得到網址 <code>host</code> 為 <code>attack.com</code> 的連結一個 <img src="/images/posts/laravel-host-header-attack/attack.com.png" alt="網址 host 為 attack.com "></p>
 </li>
 </ol>
-<p>看到熟悉的 <code>Laravel 5</code> 就完成佈署了。</p>
-<h3 id="小提示"><a href="#小提示" class="headerlink" title="小提示"></a>小提示</h3><ul>
-<li>上傳專案時，如果看到建立環境時只跑 <code>npm</code> 的套件包導致完全進不了 Laravel 時，可以試著改用網址的方式掛入環境包，參考 <a href="https://github.com/heroku/heroku-buildpack-php" target="_blank" rel="external">Heroku buildpack: PHP</a>，通常會發生在第一次建立環境時。</li>
+<h3 id="可能影響範圍"><a href="#可能影響範圍" class="headerlink" title="可能影響範圍"></a>可能影響範圍</h3><p>使用者送出的表單如果會直接發動通知，例如寄信、即時顯示網址之類的功能，都有可能會被這種攻擊方式所影響。</p>
+<h2 id="幾種解決方案"><a href="#幾種解決方案" class="headerlink" title="幾種解決方案"></a>幾種解決方案</h2><ul>
+<li>仔細看 <code>resources/views/emails/password.blade.php</code> 中所使用的連結是用 <code>url</code> 所產生的，如果只有這裡可能會被攻擊者所利用，可以選擇直接寫死。</li>
+<li>追蹤 <code>url</code> 產生的地方會來到 <code>Illuminate\Routing\UrlGenerator</code> ，我查了一下，主要問題點在於 <code>getRootUrl()</code> 身上，如果沒有設定 <code>forcedRoot</code> 則他會相信來自 <code>request</code> 的 <code>root</code> 資訊，所以我們只要在啟動過程中將 <code>forcedRoot</code> 依據環境設定進去後， <code>Laravel</code> 就不會再相信由攻擊者送過來的 <code>host</code> 了。<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppServiceProvider</span> <span class="keyword">extends</span> <span class="title">ServiceProvider</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Bootstrap any application services.</span><br><span class="line">     *</span><br><span class="line">     * @return void</span><br><span class="line">     */</span></span><br><span class="line">    public function boot()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">URL</span>::forceRootUrl(config(<span class="symbol">'app</span>.url'));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p><a href="https://devcenter.heroku.com/articles/getting-started-with-php#introduction" target="_blank" rel="external">Getting Started on Heroku with PHP</a><br><a href="https://devcenter.heroku.com/articles/getting-started-with-laravel" target="_blank" rel="external">Getting Started with Laravel on Heroku</a><br><a href="https://devcenter.heroku.com/articles/procfile" target="_blank" rel="external">Process Types and the Procfile</a><br><a href="http://www.easylaravelbook.com/blog/2015/01/31/deploying-a-laravel-application-to-heroku/" target="_blank" rel="external">Deploying a Laravel Application to Heroku</a><br><a href="https://github.com/heroku/heroku-buildpack-php" target="_blank" rel="external">Heroku buildpack: PHP</a></p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p><a href="http://www.acunetix.com/vulnerabilities/web/host-header-attack" target="_blank" rel="external">Host header attack - Acunetix</a></p>
 </span>
       
     </div>
@@ -299,9 +277,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/laravel/" rel="tag">#Laravel</a>
+            <a href="/tags/laravel-5-2/" rel="tag">#Laravel 5.2</a>
           
-            <a href="/tags/heroku/" rel="tag">#Heroku</a>
+            <a href="/tags/security/" rel="tag">#Security</a>
           
         </div>
       
@@ -310,13 +288,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/04/30/api-output-used-adapter-pattern/" rel="prev">API 輸出資料整理 - Adapter Pattern 學習筆記</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/02/29/create-your-first-composer-package/" rel="next">開發你的第一個 Composer 套件</a>
+              <a href="/2016/04/30/api-output-used-adapter-pattern/" rel="next">API 輸出資料整理 - Adapter Pattern 學習筆記</a>
             
           </div>
         </div>
@@ -431,7 +407,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#專案準備"><span class="nav-number">1.</span> <span class="nav-text">專案準備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝並設定-Heroku-Command-Line-Interface"><span class="nav-number">2.</span> <span class="nav-text">安裝並設定 Heroku Command Line Interface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立一個新-Heroku-App-然後開始佈署"><span class="nav-number">3.</span> <span class="nav-text">建立一個新 Heroku App 然後開始佈署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#小提示"><span class="nav-number">3.1.</span> <span class="nav-text">小提示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#攻擊原理"><span class="nav-number">1.</span> <span class="nav-text">攻擊原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可能影響範圍"><span class="nav-number">1.1.</span> <span class="nav-text">可能影響範圍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#幾種解決方案"><span class="nav-number">2.</span> <span class="nav-text">幾種解決方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">3.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -485,9 +461,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'yuhuisblog';
-      var disqus_identifier = '2016/03/31/deploy-laravel-to-heroku/';
-      var disqus_title = '在 Heroku 上佈署 Laravel 5';
-      var disqus_url = 'http://yuhui.im/2016/03/31/deploy-laravel-to-heroku/';
+      var disqus_identifier = '2016/05/29/laravel-host-header-attack/';
+      var disqus_title = 'Laravel Host Header Attack';
+      var disqus_url = 'http://yuhui.im/2016/05/29/laravel-host-header-attack/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
