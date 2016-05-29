@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yuhui.im/"/>
-  <updated>2016-05-29T16:13:30.000Z</updated>
+  <updated>2016-05-29T16:20:08.000Z</updated>
   <id>http://yuhui.im/</id>
   
   <author>
@@ -20,11 +20,11 @@
     <link href="http://yuhui.im/2016/05/29/laravel-host-header-attack/"/>
     <id>http://yuhui.im/2016/05/29/laravel-host-header-attack/</id>
     <published>2016-05-29T15:19:18.000Z</published>
-    <updated>2016-05-29T16:13:30.000Z</updated>
+    <updated>2016-05-29T16:20:08.000Z</updated>
     
     <content type="html">&lt;p&gt;前陣子有使用者回報站上的忘記密碼功能可以使用修改 &lt;code&gt;header&lt;/code&gt; 中 &lt;code&gt;Host&lt;/code&gt; 的方式在信件寄出時將連結位置改為任意想要的網域，也就是可能用這方式將使用者釣到攻擊者的站上騙取使用者的密碼，這裡提出我找到的解決方法供人參考，也希望如果有更好的解決方案可以反饋一下。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h2 id=&quot;攻擊原理&quot;&gt;&lt;a href=&quot;#攻擊原理&quot; class=&quot;headerlink&quot; title=&quot;攻擊原理&quot;&gt;&lt;/a&gt;攻擊原理&lt;/h2&gt;&lt;ol&gt;
+&lt;h2 id=&quot;攻擊方式範例&quot;&gt;&lt;a href=&quot;#攻擊方式範例&quot; class=&quot;headerlink&quot; title=&quot;攻擊方式範例&quot;&gt;&lt;/a&gt;攻擊方式範例&lt;/h2&gt;&lt;ol&gt;
 &lt;li&gt;&lt;p&gt;按照官方文件建立忘記密碼功能 &lt;a href=&quot;https://laravel.com/docs/5.1/authentication#resetting-passwords&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Resetting Passwords&lt;/a&gt; &lt;img src=&quot;/images/posts/laravel-host-header-attack/password_email.png&quot; alt=&quot;簡單的忘記密碼寄信頁&quot;&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;按照正常流程使用忘記密碼功能可以得到 &lt;img src=&quot;/images/posts/laravel-host-header-attack/true.png&quot; alt=&quot;正常的忘記密碼重設通知信&quot;&gt;&lt;/p&gt;

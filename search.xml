@@ -8,7 +8,7 @@
       <url>http://yuhui.im/2016/05/29/laravel-host-header-attack/</url>
       <content type="html"><![CDATA[<p>前陣子有使用者回報站上的忘記密碼功能可以使用修改 <code>header</code> 中 <code>Host</code> 的方式在信件寄出時將連結位置改為任意想要的網域，也就是可能用這方式將使用者釣到攻擊者的站上騙取使用者的密碼，這裡提出我找到的解決方法供人參考，也希望如果有更好的解決方案可以反饋一下。</p>
 <a id="more"></a>
-<h2 id="攻擊原理"><a href="#攻擊原理" class="headerlink" title="攻擊原理"></a>攻擊原理</h2><ol>
+<h2 id="攻擊方式範例"><a href="#攻擊方式範例" class="headerlink" title="攻擊方式範例"></a>攻擊方式範例</h2><ol>
 <li><p>按照官方文件建立忘記密碼功能 <a href="https://laravel.com/docs/5.1/authentication#resetting-passwords" target="_blank" rel="external">Resetting Passwords</a> <img src="/images/posts/laravel-host-header-attack/password_email.png" alt="簡單的忘記密碼寄信頁"></p>
 </li>
 <li><p>按照正常流程使用忘記密碼功能可以得到 <img src="/images/posts/laravel-host-header-attack/true.png" alt="正常的忘記密碼重設通知信"></p>
