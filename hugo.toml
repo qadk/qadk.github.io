@@ -1,0 +1,64 @@
+baseURL = 'https://qadk.github.io/'
+languageCode = 'zh-tw'
+title = "Yuhui's Notes"
+theme = 'PaperMod'
+
+# 輸出格式
+[outputs]
+home = ["HTML", "RSS", "JSON"]
+
+[params]
+description = "如果你想成為某一種人，若不花心血，朝那個方向去努力，如何變成那一種人呢?"
+author = "Yuhui"
+defaultTheme = "auto"
+ShowReadingTime = true
+ShowShareButtons = false
+ShowPostNavLinks = true
+ShowBreadCrumbs = true
+ShowCodeCopyButtons = true
+ShowToc = true
+TocOpen = false
+
+  [params.homeInfoParams]
+  Title = "Yuhui's Notes"
+  Content = "如果你想成為某一種人，若不花心血，朝那個方向去努力，如何變成那一種人呢?"
+
+  [[params.socialIcons]]
+  name = "github"
+  url = "https://github.com/qadk"
+
+  [[params.socialIcons]]
+  name = "rss"
+  url = "/index.xml"
+
+[menu]
+  [[menu.main]]
+  identifier = "archives"
+  name = "歸檔"
+  url = "/archives/"
+  weight = 10
+
+  [[menu.main]]
+  identifier = "tags"
+  name = "標籤"
+  url = "/tags/"
+  weight = 20
+
+  [[menu.main]]
+  identifier = "categories"
+  name = "分類"
+  url = "/categories/"
+  weight = 30
+
+  [[menu.main]]
+  identifier = "search"
+  name = "搜尋"
+  url = "/search/"
+  weight = 40
+
+# 程式碼高亮
+[markup]
+  [markup.highlight]
+  style = "dracula"
+  lineNos = false
+  noClasses = false
