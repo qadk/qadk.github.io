@@ -2,6 +2,7 @@ baseURL = 'https://qadk.github.io/'
 languageCode = 'zh-tw'
 title = "Yuhui's Notes"
 theme = 'PaperMod'
+hasCJKLanguage = true
 
 # 輸出格式
 [outputs]
