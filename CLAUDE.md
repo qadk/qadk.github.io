@@ -38,8 +38,24 @@ hugo --minify          # Production build
   ---
   ```
 - Mermaid diagrams work natively via fenced code blocks (` ```mermaid `)
-- Images go in `static/images/`
+- Article images go in `static/images/posts/{slug}/` (e.g. `static/images/posts/self-describing-modules/cover.png`)
+- No H1 in markdown body — PaperMod generates it from frontmatter `title`, content starts from H2
+- `hasCJKLanguage = true` is enabled in `hugo.toml` for accurate word count and reading time
+- Cover image frontmatter:
+  ```yaml
+  cover:
+    image: /images/posts/{slug}/cover.png
+    alt: "圖片描述"
+  ```
 
 ## Writing Style
 
 - 段落和粗體標題結尾不加「。」，段落中間的句號保留
+- 從業務痛點出發，不是從技術 pattern 出發
+- 先給答案再解釋——開頭讓讀者知道做法，再回頭講為什麼
+- 用真實的商品、櫃位、區域名稱舉例，不用 TypeA、TypeB
+- 用語、範例、程式碼之間要前後一致，不能有矛盾
+- 程式碼命名對齊業務語言，讓現場人員也看得懂
+- 結尾精簡，一句話夠力就好
+- 主動提 trade-off，不只講優點
+- 圖表每條線都要符合實際業務邏輯，不為好看亂畫
