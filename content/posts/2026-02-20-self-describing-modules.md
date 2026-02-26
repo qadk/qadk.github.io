@@ -3,8 +3,8 @@ title: "讓每個模組只需要認識自己——上架系統的解耦思考"
 date: 2026-02-20
 draft: false
 categories: ["Architecture"]
-tags: ["PHP", "Architecture", "Domain-Driven Design", "OCP", "Refactoring"]
-description: "用 Interface 與多型拆解倉庫上架系統的 if-else，實踐 OCP 開閉原則與 DDD 領域驅動設計，讓新增商品類型不用改任何既有程式碼"
+tags: ["PHP", "Architecture", "Ubiquitous Language", "Refactoring"]
+description: "用 Interface 與多型拆解倉庫上架系統的 if-else，以 DDD Ubiquitous Language 的精神建模，讓新增商品類型只需要最小幅度的改動"
 cover:
   image: /images/posts/self-describing-modules/cover.png
   alt: "倉庫上架人員站在貨架前，不知道該把箱子放在哪裡"
@@ -234,7 +234,7 @@ class UmbrellaStand implements ShelfType
 
 上面的雨傘就是個真實案例——第一次接觸這個專案的工程師接到這個需求，回饋是「很好改」。如果是一坨 if-else，光是定位和理解現有邏輯大概就要花上一兩天
 
-透過這種方式，我們在程式碼中落實了 **DDD（Domain-Driven Design）** 的通用語言與 **OCP 開閉原則**——讓系統不僅好改，而且好懂
+這個設計的起點，其實是 DDD 裡 **Ubiquitous Language（通用語言）** 的概念——用物流人員理解的詞彙去建模，讓程式碼說的話跟現場說的話是同一套
 
 ## 但這不是銀彈
 
